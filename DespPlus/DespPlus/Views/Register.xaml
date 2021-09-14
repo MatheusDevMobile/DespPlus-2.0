@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:DespPlus.Utils"
+             x:Class="DespPlus.Views.RegisterPage" 
+             NavigationPage.HasNavigationBar="True" >
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="ButtonAddReceip" TargetType="Button">
+                <Setter Property="BackgroundColor" Value="{StaticResource PrimaryColor}"/>
+                <Setter Property="TextColor" Value="#FFFFFF"/>
+                <Setter Property="CornerRadius" Value="5"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <NavigationPage.TitleView>
+        <Label Text="{Binding Title}" FontFamily="{StaticResource SFProTextBold}" TextColor="#FFFFFF"/>
+    </NavigationPage.TitleView>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Salvar" Command="{Binding SaveCommand}" Order="Primary"/>
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <StackLayout>
+            <ScrollView>
+                <Frame x:Name="registerFrame" CornerRadius="5" Margin="10">
+                    <StackLayout Orientation="Vertical">
+                        <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
+                            <RadioButton IsChecked="{Binding IsIncome}" VerticalOptions="Center"/>
+                            <Label Text="Rendimento" VerticalOptions="Center" />
+                            <RadioButton IsChecked="{Binding IsExpense}" VerticalOptions="Center" Margin="30,0,0,0"/>
+                            <Label Text="Despesa" VerticalOptions="Center" />
+                        </StackLayout>
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Grid Grid.Column="0" Margin="0,0,20,0" Style="{StaticResource GridPicker}">
+                                <Label Text="Data" TextColor="Black" VerticalOptions="End"/>
+                                <DatePicker Grid.Row="1" Date="{Binding DateLabel}"/>
+                                <Label Style="{StaticResource LabelIconeGridDatePicker}"/>
+                            </Grid>
+                            <Grid Grid.Column="1" Margin="20,0,0,0" Style="{StaticResource GridPicker}">
+                                <Label Text="Hora" TextColor="Black" VerticalOptions="End"/>
+                                <TimePicker Grid.Row="1" Time="{Binding TimeLabel}" />
+                                <Label Style="{StaticResource LabelIconeGridTimePicker}"/>
+                            </Grid>
+                        </Grid>
+
+                        <Label x:Name="textValue" Text="Valor" TextColor="Black" />
+                        <Entry Text="{Binding ValueLabel}" Placeholder="R$0,00" FontSize="30" Keyboard="Numeric" MaxLength="15" >
+                            <Entry.Behaviors>
+                                <local:CoinMask />
+                            </Entry.Behaviors>
+                        </Entry>
+
+                        <Grid Style="{StaticResource GridPicker}">
+                            <Label Text="Categoria" TextColor="Black" />
+                            <Picker x:Name="category" Title="Selecione..." ItemsSource="{Binding CategoryList}" ItemDisplayBinding="{Binding Name}" SelectedItem="{Binding CategoryItem}" Style="{StaticResource PickerGridPicker}"/>
+                            <Label Style="{StaticResource LabelIconeGridPicker}" InputTransparent="True" Margin="0,0,8,5"/>
+                        </Grid>
+
+                        <Entry x:Name="otherCategory" Text="{Binding OtherCategoryDescription}" FontSize="16" IsVisible="False"
+                            Placeholder="descreva o tipo...">
+                            <Entry.Triggers>
+                                <DataTrigger
+                                Binding="{Binding Source={x:Reference category}, Path=SelectedIndex}"
+                                TargetType="Entry"
+                                Value="7">
+                                    <Setter Property="IsVisible" Value="True" />
+                                </DataTrigger>
+                            </Entry.Triggers>
+                        </Entry>
+
+                        <Grid Style="{StaticResource GridPicker}">
+                            <Label Text="Forma de Pagamento" TextColor="Black" />
+                            <Picker x:Name="paymentType" Title="Selecione..." ItemsSource="{Binding PaymentMethodList}" ItemDisplayBinding="{Binding Name}" SelectedItem="{Binding PaymentMethodItem}" Style="{StaticResource PickerGridPicker}"/>
+                            <Label Style="{StaticResource LabelIconeGridPicker}" InputTransparent="True" Margin="0,0,8,5"/>
+                        </Grid>
+
+                        <Entry x:Name="otherPayment" Text="{Binding OtherPaymentMethodDescription}" FontSize="16" IsVisible="False"
+                            Placeholder="descreva a forma de pagamento...">
+                            <Entry.Triggers>
+                                <DataTrigger
+                                Binding="{Binding Source={x:Reference paymentType}, Path=SelectedIndex}"
+                                TargetType="Entry"
+                                Value="10">
+                                    <Setter Property="IsVisible" Value="True" />
+                                </DataTrigger>
+                            </Entry.Triggers>
+                        </Entry>
+
+                        <Label Text="Observações" TextColor="Black" />
+                        <Editor Placeholder="Digite aqui.." Text="{Binding CommentDescription}" AutoSize="TextChanges" />
+
+                        <Label Text="{Binding SwitchTitleLabel}" TextColor="Black" IsVisible="{Binding HasImage, Converter={StaticResource InverterBooleanConverter}}"/>
+                        <StackLayout Orientation="Horizontal" IsVisible="{Binding HasImage, Converter={StaticResource InverterBooleanConverter}}">
+                            <Label Text="Não" />
+                            <Switch IsToggled="{Binding AddImageSwitch}" />
+                            <Label Text="Sim" />
+                        </StackLayout>
+                        <StackLayout Orientation="Horizontal" IsVisible="{Binding HasImage}" Margin="0,10">
+                            <Label Text="&#xf056;" FontSize="20" TextColor="#95FF0000" FontFamily="{StaticResource FontAwesomeSolid}" Margin="0,0,15,0">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding DeleteImageCommand}" />
+                                </Label.GestureRecognizers>
+                            </Label>
+                            <Label Text="{Binding FileName}" TextDecorations="Underline" Style="{StaticResource LabelIconImageLink}" VerticalOptions="Center">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding OpenFileCommand}"/>
+                                </Label.GestureRecognizers>
+                            </Label>
+                        </StackLayout>
+                        <StackLayout x:Name="containerAddImage" IsVisible="{Binding AddImageContainer}">
+                            <Label
+                            HorizontalOptions="CenterAndExpand"
+                            Text="Como deseja adicionar seu comprovante?"
+                            TextColor="Black" />
+                            <StackLayout Orientation="Horizontal">
+                                <ImageButton BackgroundColor="Transparent" Clicked="PhotoCamera" CornerRadius="30" HeightRequest="40" HorizontalOptions="CenterAndExpand"
+                                    Source="iconCamera" Command="{Binding OpenCameraCommand}"
+                                    WidthRequest="40" />
+                                <ImageButton BackgroundColor="Transparent" Clicked="OnPickPhotoButtonClicked" CornerRadius="30" HeightRequest="40" HorizontalOptions="CenterAndExpand"
+                                    Source="iconGallery" Command="{Binding OpenPhotoLibraryCommand}"
+                                    WidthRequest="40" />
+                            </StackLayout>
+                        </StackLayout>
+                    </StackLayout>
+                </Frame>
+            </ScrollView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

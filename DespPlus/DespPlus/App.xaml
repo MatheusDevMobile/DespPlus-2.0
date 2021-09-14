@@ -1,0 +1,112 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Application xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="clr-namespace:DespPlus.Converters"
+             x:Class="DespPlus.App">
+    <Application.Resources>
+        <!--CONVERTERS-->
+        <converters:CurrencyConverter x:Key="CurrencyConverter" />
+        <converters:PercentageConverter x:Key="PercentageConverter" />
+        <converters:InverterBooleanConverter x:Key="InverterBooleanConverter" />
+        
+        <!--COLORS-->
+        <Color x:Key="ExpenseColor">#F8777D</Color>
+        <Color x:Key="PrimaryColor">#65BCBF</Color>
+        <Color x:Key="ColorBlueLink">#6584f0</Color>
+        
+        <!--FONTS-->
+        <OnPlatform x:TypeArguments="x:String" x:Key="SFProTextRegular">
+            <On Platform="Android" Value="Fonts/SFProText-Regular.ttf#SFProText-Regular" />
+            <On Platform="iOS" Value="SFProTextRegular" />
+        </OnPlatform>
+        <OnPlatform x:TypeArguments="x:String" x:Key="SFProTextBold">
+            <On Platform="Android" Value="Fonts/SFProText-Bold.ttf#SFProText-Bold" />
+            <On Platform="iOS" Value="SFProTextBold" />
+        </OnPlatform>
+        
+        <!--FONTAWESOME-->
+        <OnPlatform x:TypeArguments="x:String" x:Key="FontAwesomeBrands">
+            <On Platform="Android" Value="FontAwesome5Brands.otf#Regular" />
+            <On Platform="iOS" Value="FontAwesome5Brands-Regular" />
+        </OnPlatform>
+
+        <OnPlatform x:TypeArguments="x:String" x:Key="FontAwesomeSolid">
+            <On Platform="Android" Value="FontAwesome5Solid.otf#Regular" />
+            <On Platform="iOS" Value="FontAwesome5Free-Solid" />
+        </OnPlatform>
+
+        <OnPlatform x:TypeArguments="x:String" x:Key="FontAwesomeRegular">
+            <On Platform="Android"  Value="FontAwesome5Regular.otf#Regular" />
+            <On Platform="iOS" Value="FontAwesome5Free-Regular" />
+        </OnPlatform>
+
+        <!-- Picker -->
+        <Style x:Key="PickerGridPicker" TargetType="Picker">
+            <Setter Property="Grid.Row" Value="1"/>
+            <Setter Property="FontFamily" Value="{StaticResource SFProTextRegular}"/>
+            <Setter Property="Margin" Value="-4,0,-2,0"/>
+        </Style>
+        
+        <!--LABEL-->
+        <Style TargetType="Label">
+            <Setter Property="FontFamily" Value="{StaticResource SFProTextRegular}"/>
+        </Style>
+        
+        <Style x:Key="LabelGenericoComIcone" TargetType="Label">
+            <Setter Property="FontFamily" Value="{StaticResource FontAwesomeRegular}"/>
+            <Setter Property="TextColor" Value="Gray"/>
+        </Style>
+
+        <Style x:Key="LabelIcone" TargetType="Label" BasedOn="{StaticResource LabelGenericoComIcone}">
+            <Setter Property="VerticalOptions" Value="CenterAndExpand"/>
+            <Setter Property="HorizontalOptions" Value="CenterAndExpand"/>
+        </Style>
+
+        <Style x:Key="LabelIconeGridDatePicker" TargetType="Label" BasedOn="{StaticResource LabelIcone}">
+            <Setter Property="Text" Value="&#xf073;" />
+            <Setter Property="Grid.Row" Value="1"/>
+            <Setter Property="HorizontalOptions" Value="End"/>
+            <Setter Property="Margin" Value="0,0,8,0"/>
+        </Style>
+
+        <Style x:Key="LabelIconeGridTimePicker" TargetType="Label" BasedOn="{StaticResource LabelIcone}">
+            <Setter Property="Text" Value="&#xf017;"/>
+            <Setter Property="Grid.Row" Value="1"/>
+            <Setter Property="HorizontalOptions" Value="End"/>
+            <Setter Property="Margin" Value="0,0,8,0"/>
+        </Style>
+
+        <Style x:Key="LabelIconImageLink" TargetType="Label" BasedOn="{StaticResource LabelIcone}">
+            <Setter Property="TextColor" Value="{StaticResource ColorBlueLink}"/>
+            <Setter Property="HorizontalOptions" Value="StartAndExpand"/>
+            <Setter Property="FontSize" Value="15"/>
+        </Style>
+
+        <Style x:Key="LabelIconeGridPicker" TargetType="Label" BasedOn="{StaticResource LabelIcone}">
+            <Setter Property="Text" Value="&#xf0dd;"/>
+            <Setter Property="TextColor" Value="Gray"/>
+            <Setter Property="Grid.Row" Value="1"/>
+            <Setter Property="FontFamily" Value="{DynamicResource FontAwesomeSolid}"/>
+            <Setter Property="HorizontalOptions" Value="End"/>
+            <Setter Property="Margin" Value="0,0,8,16"/>
+        </Style>
+
+        <!--NAVIGATION PAGE-->
+        <Style TargetType="NavigationPage">
+            <Setter Property="BarBackground" Value="{StaticResource PrimaryColor}"/>
+            <Setter Property="BarBackgroundColor" Value="{StaticResource PrimaryColor}"/>
+        </Style>
+
+        <RowDefinitionCollection x:Key="EntryGridRowsDefinitions">
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </RowDefinitionCollection>
+        
+        <Style x:Key="GridEntry" TargetType="Grid">
+            <Setter Property="RowDefinitions" Value="{StaticResource EntryGridRowsDefinitions}"/>
+        </Style>
+        <Style x:Key="GridPicker" TargetType="Grid" BasedOn="{StaticResource GridEntry}"/>
+
+    </Application.Resources>
+</Application>
