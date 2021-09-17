@@ -4,6 +4,7 @@ using DespPlus.Views;
 using DespPlus.Views.Tabbed;
 using Rg.Plugins.Popup.Extensions;
 using Rg.Plugins.Popup.Pages;
+using Rg.Plugins.Popup.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,8 +35,8 @@ namespace DespPlus.Services
                         case nameof(MainPage):
                             page = new MainPage();
                             break;
-                        case nameof(RegisterInfoModal):
-                            page = new RegisterInfoModal();
+                        case nameof(DetailRegister):
+                            page = new DetailRegister();
                             break;
                     }
                     Application.Current.MainPage = navigationBar ? new NavigationPage(page) : page;
@@ -61,8 +62,8 @@ namespace DespPlus.Services
                     case nameof(RegisterPage):
                         page = new RegisterPage();
                         break;
-                    case nameof(RegisterInfoModal):
-                        page = new RegisterInfoModal();
+                    case nameof(DetailRegister):
+                        page = new DetailRegister();
                         break;
                     case nameof(FilePopupPage):
                         page = new FilePopupPage();
@@ -76,7 +77,7 @@ namespace DespPlus.Services
                         await ((IViewModel)page.BindingContext).ReceiveNavigationParameters(parameters);
                     return;
                 }
-                if (url.Equals("RegisterInfoModal"))
+                if (url.Equals("DetailRegister"))
                 {
                     await CurrentPage.Navigation.PushModalAsync(new NavigationPage(page), true);
                     await ((IViewModel)page.BindingContext)?.ReceiveNavigationParameters(parameters);
@@ -99,13 +100,29 @@ namespace DespPlus.Services
             var currentPage = Application.Current.MainPage;
             Page page;
 
-            if (currentPage.Navigation.NavigationStack.Count > 0)
-                await currentPage.Navigation.PopAsync(true);
+            try
+            {
+                if (PopupNavigation.Instance.PopupStack.Count > 0)
+                {
+                    await currentPage.Navigation.PopPopupAsync();
+                    page = PopupNavigation.Instance.PopupStack.LastOrDefault() ?? currentPage.Navigation.ModalStack.LastOrDefault() ?? currentPage.Navigation.NavigationStack.LastOrDefault() ?? Application.Current.MainPage;
+                }
+                else
+                {
+                    if (currentPage.Navigation.NavigationStack.Count > 0)
+                        await currentPage.Navigation.PopAsync(true);
 
-            page = currentPage.Navigation.NavigationStack.LastOrDefault() ?? Application.Current.MainPage;
+                    page = currentPage.Navigation.NavigationStack.LastOrDefault() ?? Application.Current.MainPage;
+                }
 
-            if (parameters != null)
-                await ((IViewModel)page.BindingContext).ReceiveNavigationParameters(parameters);
+                if (parameters != null)
+                    await ((IViewModel)page.BindingContext).ReceiveNavigationParameters(parameters);
+
+            }
+            catch (Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert("Erro", ex.Message, "ok");
+            }
         }
     }
 }

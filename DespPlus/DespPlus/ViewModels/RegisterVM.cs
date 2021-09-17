@@ -1,4 +1,5 @@
-﻿using DespPlus.Helpers;
+﻿using DespPlus.Converters;
+using DespPlus.Helpers;
 using DespPlus.Models;
 using DespPlus.Services.Interface;
 using DespPlus.ViewModels.Interfaces;
@@ -7,6 +8,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Globalization;
+using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -42,19 +45,21 @@ namespace DespPlus.ViewModels
             OpenPhotoLibraryCommand = new Command(() => { OpenPhotoLibrary(); });
         }
 
+        public bool IsEdit { get; set; }
         public bool IsIncome { get; set; }
-        public bool IsExpense { get; set; } = true;
+        public bool IsExpense => !IsIncome;
         public bool HasImage { get; set; }
         public bool AddImageSwitch { get; set; }
         public bool AddImageContainer => AddImageSwitch;
         public string SwitchTitleLabel => "Adicionar Comprovante?";
         public string ValueLabel { get; set; }
         public string CashFlowType { get; set; }
-        public ImageSource ReceipPhoto { get; set; }
+        public ImageSource ReceipPhotoSource { get; set; }
         public string FileName { get; set; }
         public string Base64 { get; set; }
         public string CheckingCopyPhotoName { get; set; }
-        public Category CategoryItem { get; set; }
+        public CashFlow CashFlowRegister { get; set; }
+        public Category CategoryItem { get; set; } = new Category();
         public string OtherCategoryDescription { get; set; }
         public PaymentMethod PaymentMethodItem { get; set; }
         public string OtherPaymentMethodDescription { get; set; }
@@ -69,11 +74,41 @@ namespace DespPlus.ViewModels
         {
             CategoryList = await CashFlowTypeService.GetCategories();
             PaymentMethodList = await PaymentMethodService.GetPaymentMethods();
+
+            if (parameters != null && parameters.TryGetValue(ParametersName.EditRegister, out var cashFlowParam))
+            {
+                CashFlowRegister = (CashFlow)cashFlowParam;
+
+                var toStringValue = CashFlowRegister.ValueLabel.Replace("R$ ", "").Replace(",", "").Replace(".", "");
+
+                //Verificar trasnfêrencia para mapeamento
+                IsEdit = true;
+
+                IsIncome = CashFlowRegister.IsIncome;
+
+                ValueLabel = toStringValue;
+                DateLabel = CashFlowRegister.Date;
+                TimeLabel = CashFlowRegister.Time;
+                CommentDescription = CashFlowRegister.Comment;
+                OtherCategoryDescription = CashFlowRegister.OtherCategoryDescription;
+                OtherPaymentMethodDescription = CashFlowRegister.OtherPaymentDescription;
+                CategoryItem = CategoryList.FirstOrDefault(c => c.Name.Equals(CashFlowRegister.CategoryDescription));
+                PaymentMethodItem = PaymentMethodList.FirstOrDefault(c => c.Name.Equals(CashFlowRegister.PaymentMethodDescription));
+                Base64 = CashFlowRegister.ImageString64;
+                HasImage = CashFlowRegister.ImageString64 != null;
+                FileName = CashFlowRegister.ImageName;
+
+                ReceipPhotoSource = ImageSource.FromStream(() =>
+                {
+                    return new MemoryStream(Convert.FromBase64String(CashFlowRegister.ImageString64));
+                });
+
+            }
         }
 
         private async Task OpenImage()
         {
-            var parameters = ConstructorParameters.Init(ParametersName.FilePopup, ReceipPhoto).GenerateParameters();
+            var parameters = ConstructorParameters.Init(ParametersName.FilePopup, ReceipPhotoSource).GenerateParameters();
             await NavigatorService.NavigateToAsync("FilePopupPage", parameters);
         }
         private async void OpenPhotoLibrary()
@@ -81,7 +116,7 @@ namespace DespPlus.ViewModels
             var imageSource = await PickPhotoService.PickPhotoFromLibraryAsync();
             if (imageSource.Item1 != null)
             {
-                ReceipPhoto = imageSource.Item1;
+                ReceipPhotoSource = imageSource.Item1;
                 FileName = imageSource.Item2;
                 Base64 = imageSource.Item3;
                 AddImageSwitch = false;
@@ -94,7 +129,7 @@ namespace DespPlus.ViewModels
             var imageSource = await PickPhotoService.TakePhotoAsync();
             if (imageSource.Item1 != null)
             {
-                ReceipPhoto = imageSource.Item1;
+                ReceipPhotoSource = imageSource.Item1;
                 FileName = imageSource.Item2;
                 Base64 = imageSource.Item3;
                 AddImageSwitch = false;
@@ -107,7 +142,7 @@ namespace DespPlus.ViewModels
             var removeAlert = await Application.Current.MainPage.DisplayAlert("Atenção", "Deseja remover esse comprovante?", "sim", "não");
             if (removeAlert)
             {
-                ReceipPhoto = null;
+                ReceipPhotoSource = null;
                 AddImageSwitch = false;
                 HasImage = false;
             }
@@ -115,50 +150,47 @@ namespace DespPlus.ViewModels
 
         private async void SaveRegister()
         {
-            var cashFlowLabel = "";
-            var colorLabel = "";
-            if (IsIncome)
-            {
-                cashFlowLabel = "Rendimento";
-                colorLabel = "#65BCBF";
-            }
-            if (IsExpense)
-            {
-                cashFlowLabel = "Despesa";
-                colorLabel = "#F8777D";
-            }
-
             var toStringValue = ValueLabel.Replace("R$ ", "").Replace(",", "").Replace(".", "");
             var prepareToStringValue = toStringValue.Insert(toStringValue.Length - 2, ",");
+            var idRegister = Guid.NewGuid().ToString();
 
-            var register = new CashFlow
+            if (IsEdit)
+                idRegister = CashFlowRegister.Id;
+
+            CashFlowRegister = new CashFlow
             {
-                Id = Guid.NewGuid().ToString(),
+                Id = idRegister,
                 Date = DateLabel,
                 Time = TimeLabel,
-                RegisterType = cashFlowLabel,
+                IsIncome = this.IsIncome,
                 Value = double.Parse(prepareToStringValue, CultureInfo.GetCultureInfo("pt-br")),
-                ValueLabel = ValueLabel,
-                PaymentDescription = PaymentMethodItem.Name,
-                OtherPaymentDescription = OtherPaymentMethodDescription,
+                ValueLabel = this.ValueLabel,
+                PaymentMethodDescription = PaymentMethodItem.Name,
+                OtherPaymentDescription = this.OtherPaymentMethodDescription,
                 CategoryDescription = CategoryItem.Name,
                 OtherCategoryDescription = OtherCategoryDescription,
-                ImageString = Base64,
-                Comment = CommentDescription,
-                LabelColor = colorLabel,
-                Icon = CategoryItem.Name == "Salário" ? "money.png" :
-                       CategoryItem.Name == "Alimentação" ? "restaurant.png" :
-                       CategoryItem.Name == "Combustível" ? "car.png" :
-                       CategoryItem.Name == "Outros" ? "house.png" :
-                       CategoryItem.Name == "" ? "" : ""
+                ImageName = FileName,
+                ImageString64 = Base64,
+
+                Comment = CommentDescription
             };
 
+            if (IsEdit)
+            {
+                await CashFlowService.UpdateRegister(idRegister, CashFlowRegister);
 
-            if (await CashFlowService.CreateRegister(register))
+                await Application.Current.MainPage.DisplayAlert("Sucesso", "Registro atualizado", "ok");
+
+                var parameters = ConstructorParameters.Init(ParametersName.ReloadPage, true).GenerateParameters();
+                await NavigatorService.BackToAsync(parameters);
+            }
+
+            if (await CashFlowService.CreateRegister(CashFlowRegister))
             {
                 await Application.Current.MainPage.DisplayAlert("Ok", "Salvo", "ok");
 
-                await Application.Current.MainPage.Navigation.PopAsync();
+                var parameters = ConstructorParameters.Init(ParametersName.ReloadPage, true).GenerateParameters();
+                await NavigatorService.BackToAsync(parameters);
             }
         }
     }

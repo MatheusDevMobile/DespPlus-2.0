@@ -13,6 +13,7 @@ namespace DespPlus.Services.Interface
         Task<List<CashFlow>> GetCashFlowOfMonth();
         Task<List<CashFlow>> GetCashFlowOfYear();
         Task<bool> CreateRegister(CashFlow cashFlow);
-        Task<bool> DeleteRegister(CashFlow cashFlow);
+        Task<bool> UpdateRegister(string id, CashFlow cashFlow);
+        Task<bool> DeleteRegister(string id);
     }
 }

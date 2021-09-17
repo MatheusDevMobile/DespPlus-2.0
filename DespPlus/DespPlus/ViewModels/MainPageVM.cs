@@ -1,16 +1,12 @@
 ﻿using DespPlus.Helpers;
 using DespPlus.Models;
-using DespPlus.Services;
 using DespPlus.Services.Interface;
-using DespPlus.Utils;
 using DespPlus.ViewModels.Interfaces;
-using DespPlus.Views;
 using ProgressRingControl.Forms.Plugin;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -31,36 +27,35 @@ namespace DespPlus.ViewModels
             CashFlowService = cashFlowServices;
             NavigatorService = navigatorService;
 
-            RefreshCommand = new Command(ExecuteRefreshCommand);
+            RefreshCommand = new Command(async () => { await ExecuteRefreshCommand(); });
             GoToRegisterCommand = new Command(() => GoToRegister());
-            //DeleteCommand = new Command<CashFlow>(async (register) => await DeleteRegister(register));
         }
         public double TotalIncomesValue { get; set; }
         public double TotalExpensesValue { get; set; }
         public bool IsRefreshing { get; set; }
         public double TotalPercentage { get; set; }
-        public string TitleMainPage => DateTime.Today.ToString("dddd, dd MMMM DE yyyy").ToUpper();
         public ObservableCollection<CashFlow> CashFlows { get; set; } = new ObservableCollection<CashFlow>();
         public Animation Animation { get; set; }
         public double AnimationProgressPercentage { get; set; }
-        public string LabelCurrentMonth { get; set; } = "BALANÇO DO MÊS CORRENTE";
-        public string Title { get; set; } = "MainPage";
+        public string Title { get; set; } = DateTime.Today.ToString("dddd, dd MMMM DE yyyy").ToUpper();
         public async Task ReceiveNavigationParameters(IReadOnlyDictionary<string, object> parameters)
         {
-        }
-        private async void GetCashFlow()
-        {
-            CashFlows.Clear();
-            CashFlows = new ObservableCollection<CashFlow>(await CashFlowService.GetAllCashFlow());
+            if (parameters != null && parameters.TryGetValue(ParametersName.ReloadPage, out var reloadPage))
+            {
+                if ((bool)reloadPage)
+                {
+                    ExecuteRefreshCommand();
+                }
+            }
         }
 
         private void GetTotalPercentage()
         {
             var percentage = 0d;
-            TotalIncomesValue = CashFlows.Where(x => x.RegisterType == "Rendimento").Sum(l => l.Value);
-            TotalExpensesValue = CashFlows.Where(x => x.RegisterType == "Despesa").Sum(l => l.Value);
+            TotalIncomesValue = CashFlows.Where(x => x.IsIncome).Sum(l => l.Value);
+            TotalExpensesValue = CashFlows.Where(x => x.IsIncome == false).Sum(l => l.Value);
 
-            if ( TotalIncomesValue > 0 && TotalExpensesValue < 1)
+            if (TotalIncomesValue > 0 && TotalExpensesValue < 1)
             {
                 percentage = 100d;
             }
@@ -102,9 +97,11 @@ namespace DespPlus.ViewModels
 
         }
 
-        public void ExecuteRefreshCommand()
+        public async Task ExecuteRefreshCommand()
         {
-            GetCashFlow();
+            CashFlows.Clear();
+            CashFlows = new ObservableCollection<CashFlow>(await CashFlowService.GetAllCashFlow());
+
             GetTotalPercentage();
             ShowPercentageValuesAnimation();
 
@@ -115,16 +112,16 @@ namespace DespPlus.ViewModels
         {
             await NavigatorService.NavigateToAsync("RegisterPage");
         }
-        
+
         internal async void OpenRegisterInfo(CashFlow cashFlow)
         {
             var parametros = ConstructorParameters.Init(ParametersName.CashFlow, cashFlow).GenerateParameters();
-            await NavigatorService.NavigateToAsync("RegisterInfoModal", parametros);
+            await NavigatorService.NavigateToAsync("DetailRegister", parametros);
         }
 
-        public async Task<bool> DeleteRegister(CashFlow register)
+        public async Task<bool> DeleteRegister(string id)
         {
-            if (await CashFlowService.DeleteRegister(register))
+            if (await CashFlowService.DeleteRegister(id))
             {
                 ExecuteRefreshCommand();
                 return true;

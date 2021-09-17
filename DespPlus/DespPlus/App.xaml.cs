@@ -1,9 +1,5 @@
 ﻿using DespPlus.Services.Interface;
-using DespPlus.Views;
-using DespPlus.Views.Tabbed;
-using System;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 
 namespace DespPlus
 {

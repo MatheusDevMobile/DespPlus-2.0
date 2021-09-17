@@ -17,7 +17,6 @@ namespace DespPlus.Data.Mock
                                                  .RuleFor(a => a.Date, f => f.Date.Between(DateTime.Today, DateTime.Today))
                                                  .RuleFor(a => a.Time, f => f.Date.Timespan())
                                                  .RuleFor(a => a.Comment, f => f.Hacker.Phrase())
-                                                 .RuleFor(a => a.CategoryDescription, f => f.Hacker.Verb())
                                                  .Generate(10);
         }
 
@@ -65,7 +64,7 @@ namespace DespPlus.Data.Mock
             throw new NotImplementedException();
         }
 
-        public Task<bool> DeleteRegister(CashFlow cashFlow)
+        public Task<bool> DeleteRegister(string id)
         {
             throw new NotImplementedException();
         }
@@ -91,6 +90,11 @@ namespace DespPlus.Data.Mock
         }
 
         public Task<List<CashFlow>> GetCashFlowToday(DateTime dateToday)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> UpdateRegister(string id, CashFlow cashFlow)
         {
             throw new NotImplementedException();
         }

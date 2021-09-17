@@ -6,7 +6,6 @@ using DespPlus.Interface;
 using DespPlus.Services;
 using DespPlus.Services.Interface;
 using DespPlus.ViewModels;
-using Microsoft.EntityFrameworkCore;
 using SimpleInjector;
 using System;
 using System.Collections.Generic;
@@ -20,8 +19,6 @@ namespace DespPlus.Aplication
         {
             Container = new Container();
 
-            Container.Register<DespPlusContext>(Lifestyle.Singleton);
-
             ConfigureViewModels();
             ConfigureServices();
             ConfigureRepositories();
@@ -31,7 +28,7 @@ namespace DespPlus.Aplication
         {
             Container.Register<MainPageVM>();
             Container.Register<RegisterVM>();
-            Container.Register<RegisterInfoModalVM>();
+            Container.Register<DetailRegisterVM>();
             Container.Register<FilePopupPageVM>();
         }
 
@@ -41,8 +38,8 @@ namespace DespPlus.Aplication
             Container.Register<INavigatorService, NavigatorService>(Lifestyle.Singleton);
             Container.Register<IHandleExeptionService, HandleExeptionService>(Lifestyle.Singleton);
             Container.Register<IPickPhotoService, PickPhotoService>();
-            Container.Register <ICategoryService, CategoryMock>();
-            Container.Register <IPaymentMethodService, PaymentMethodMock>();
+            Container.Register<ICategoryService, CategoryMock>();
+            Container.Register<IPaymentMethodService, PaymentMethodMock>();
 
             Container.RegisterInstance<IShowAlertService>(new ShowAlertService());
         }

@@ -9,7 +9,7 @@
         </ResourceDictionary>
     </TabbedPage.Resources>
     <NavigationPage.TitleView>
-        <Label Text="{Binding TitleMainPage}" FontFamily="{StaticResource SFProTextBold}" TextColor="#FFFFFF"/>
+        <Label Text="{Binding Title}" FontFamily="{StaticResource SFProTextBold}" TextColor="#FFFFFF"/>
     </NavigationPage.TitleView>
     <TabbedPage.ToolbarItems>
         <ToolbarItem IconImageSource="addIcon"
@@ -64,7 +64,7 @@
             </ListView>
         </Grid>
     </ContentPage>
-    <ContentPage Title="Mensal" BackgroundColor="{StaticResource PrimaryColor}">
+    <!--<ContentPage Title="Mensal" BackgroundColor="{StaticResource PrimaryColor}">
         <StackLayout>
             <StackLayout HorizontalOptions="CenterAndExpand" Margin="15">
                 <Label Text="{Binding LabelCurrentMonth}" HorizontalOptions="CenterAndExpand" FontSize="12" TextColor="#FFFFFF"/>
@@ -109,5 +109,5 @@
                 </ListView>
             </StackLayout>
         </StackLayout>
-    </ContentPage>
+    </ContentPage>-->
 </TabbedPage>

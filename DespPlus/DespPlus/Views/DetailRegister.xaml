@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:PopupPage  xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+             xmlns:animations="clr-namespace:Rg.Plugins.Popup.Animations;assembly=Rg.Plugins.Popup"
+             xmlns:toolkit="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:shimmer="clr-namespace:XFShimmerLayout.Controls;assembly=XFShimmerLayout"
+             x:Class="DespPlus.Views.DetailRegister">
+
+
+<pages:PopupPage.Animation>
+        <animations:ScaleAnimation 
+            PositionIn="Center"
+            PositionOut="Center"
+            ScaleIn="1.2"
+            ScaleOut="0.8"
+            DurationIn="400"
+            DurationOut="300"
+            EasingIn="SinOut"
+            EasingOut="SinIn"
+            HasBackgroundAnimation="True"/>
+    </pages:PopupPage.Animation>
+    <StackLayout toolkit:StateLayout.CurrentState="{Binding StateView, Mode=TwoWay}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+        <toolkit:StateLayout.StateViews>
+            <toolkit:StateView StateKey="Loading" RepeatCount="4">
+                <toolkit:StateView.Template>
+                    <DataTemplate>
+                        <shimmer:ShimmerLayout IsLoading="True" Angle="-20" GradientSize=".2" Duration="1000" ForegroundGradientColor="{StaticResource ColorLighGray}" Opacity=".8" PaddingOverlayDefault="0">
+                            <Grid Margin="20,26,20,-13" Padding="0" RowSpacing="4">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <BoxView HeightRequest="26" />
+                                <BoxView Grid.Row="1" HeightRequest="26" />
+
+                                <Grid Grid.Row="2" ColumnSpacing="12" Margin="20,34,-20,0" RowSpacing="4">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="52"/>
+                                        <ColumnDefinition Width="52"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <BoxView HeightRequest="10" Margin="0,0,20,0" />
+                                    <BoxView Grid.Row="1" HeightRequest="18" />
+
+                                    <BoxView Grid.Column="1" HeightRequest="10" Margin="0,0,20,0" />
+                                    <BoxView Grid.Row="1" Grid.Column="1" HeightRequest="18" />
+                                </Grid>
+
+                                <Grid Grid.Row="3" Margin="20,12,-20,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <BoxView HeightRequest="18" Margin="24,0,24,0" />
+                                    <BoxView Grid.Column="1" HeightRequest="18" Margin="24,0,24,0" />
+                                    <BoxView Grid.Column="2" HeightRequest="18"  Margin="24,0,24,0" />
+                                </Grid>
+                            </Grid>
+                        </shimmer:ShimmerLayout>
+                    </DataTemplate>
+                </toolkit:StateView.Template>
+            </toolkit:StateView>
+
+            <toolkit:StateView StateKey="Success" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" >
+                <Frame BackgroundColor="#FFFFFF" WidthRequest="320" HeightRequest="500" CornerRadius="5">
+                    <StackLayout>
+                        <StackLayout Orientation="Horizontal">
+                            <Label Text="Valor" FontFamily="{StaticResource SFProTextBold}" HorizontalOptions="StartAndExpand"/>
+                            <Label Text="&#xd7;" FontSize="18" TextColor="{StaticResource AlertColor}" FontFamily="{StaticResource SFProTextBold}" HorizontalOptions="End" VerticalOptions="Start">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding ClosePopupCommand}"/>
+                                </Label.GestureRecognizers>
+                            </Label>
+                        </StackLayout>
+                        <Label Text="{Binding CashFlowRegister.ValueLabel}"/>
+                        <Label Text="Categoria" FontFamily="{StaticResource SFProTextBold}"/>
+                        <Label Text="{Binding CashFlowRegister.CategoryDescription}"/>
+
+                        <StackLayout IsVisible="{Binding HasOtherCategoryDescription}">
+                            <Label Text="Descrição da categoria" FontFamily="{StaticResource SFProTextBold}"/>
+                            <Label Text="{Binding CashFlowRegister.OtherCategoryDescription}"/>
+                        </StackLayout>
+
+                        <Label Text="Data" FontFamily="{StaticResource SFProTextBold}"/>
+                        <Label Text="{Binding CashFlowRegister.Date, StringFormat='{0:dd/MM/yyyy}'}"/>
+                        <Label Text="Hora" FontFamily="{StaticResource SFProTextBold}"/>
+                        <Label Text="{Binding TimeLabel}"/>
+                        <Label Text="Forma de Pagamento" FontFamily="{StaticResource SFProTextBold}"/>
+                        <Label Text="{Binding CashFlowRegister.PaymentMethodDescription}"/>
+
+                        <StackLayout IsVisible="{Binding HasOtherPaymentDescription}">
+                            <Label Text="Descrição do pagamento" FontFamily="{StaticResource SFProTextBold}"/>
+                            <Label Text="{Binding CashFlowRegister.OtherPaymentDescription}"/>
+                        </StackLayout>
+
+                        <StackLayout IsVisible="{Binding HasComment}">
+                            <Label Text="Complemento" FontFamily="{StaticResource SFProTextBold}"/>
+                            <Label Text="{Binding CashFlowRegister.Comment}"/>
+                        </StackLayout>
+
+                        <StackLayout Orientation="Horizontal" Margin="0,10" IsVisible="{Binding HasImage}">
+                            <Label Text="&#xf03e;" FontSize="20" TextColor="#65BCBF" FontFamily="{StaticResource FontAwesomeSolid}" Margin="0,0,5,0"/>
+                            <Label Text="{Binding ImageLabel}" TextDecorations="Underline" Style="{StaticResource LabelIconImageLink}" VerticalOptions="Center">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding OpenImageCommand}"/>
+                                </Label.GestureRecognizers>
+                            </Label>
+                        </StackLayout>
+                        <StackLayout Orientation="Horizontal" VerticalOptions="EndAndExpand">
+                            <Button Text="Edit" FontSize="20" FontFamily="{StaticResource FontAwesomeSolid}" HorizontalOptions="FillAndExpand" Command="{Binding EditRegisterCommand}" BackgroundColor="{StaticResource PrimaryColor}" TextColor="#FFFFFF" CornerRadius="5"/>
+                            <Button Text="&#xf2ed;" FontSize="20" FontFamily="{StaticResource FontAwesomeSolid}" HorizontalOptions="FillAndExpand" Command="{Binding DeleteRegisterCommand}" BackgroundColor="{StaticResource AlertColor}" TextColor="#FFFFFF" CornerRadius="5"/>
+                        </StackLayout>
+                    </StackLayout>
+                </Frame>
+            </toolkit:StateView>
+        </toolkit:StateLayout.StateViews>
+    </StackLayout>
+</pages:PopupPage>

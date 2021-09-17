@@ -3,30 +3,30 @@ using DespPlus.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DespPlus.Data.Repository
 {
     public class CashFlowRepository : ICashFlowRepository
     {
-        private DespPlusContext Context { get; }
-
-        public CashFlowRepository(DespPlusContext context)
+        private DespPlusContext _context;
+        public async Task<bool> Delete(string id)
         {
-            Context = context;
-        }
-        public async Task<bool> Delete(CashFlow cashFlow)
-        {
+            _context = new DespPlusContext();
             try
             {
-                Context.CashFlows.Remove(cashFlow);
-                var row = await Context.SaveChangesAsync();
+                var register = await _context.CashFlows.FindAsync(id);
+                if (register != null)
+                { 
+                    _context.CashFlows.Remove(register);
+                    var row = _context.SaveChanges();
+                    return row > 0;
+                }
 
-                return row > 0;
+                return false;
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
                 return false;
@@ -35,9 +35,10 @@ namespace DespPlus.Data.Repository
 
         public async Task<List<CashFlow>> GetAll()
         {
+            _context = new DespPlusContext();
             try
             {
-                var list = await Context.CashFlows.ToListAsync();
+                var list = await _context.CashFlows.ToListAsync();
                 return list;
             }
             catch (Exception ex)
@@ -48,14 +49,49 @@ namespace DespPlus.Data.Repository
 
         public async Task<bool> Save(CashFlow cashFlow)
         {
+            _context = new DespPlusContext();
             try
             {
-                Context.CashFlows.Add(cashFlow);
-                var row = await Context.SaveChangesAsync();
+                _context.CashFlows.Add(cashFlow);
+                var row = await _context.SaveChangesAsync();
 
                 return row > 0;
             }
-            catch (Exception)
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool> Update(string id, CashFlow cashFlow)
+        {
+            _context = new DespPlusContext();
+            try
+            {
+                var register = await _context.CashFlows.FindAsync(id);
+                if (register != null)
+                {
+                    register.Date = cashFlow.Date;
+                    register.Time = cashFlow.Time;
+                    register.Value = cashFlow.Value;
+                    register.ValueLabel = cashFlow.ValueLabel;
+                    register.CategoryDescription = cashFlow.CategoryDescription;
+                    register.OtherCategoryDescription = cashFlow.OtherCategoryDescription;
+                    register.PaymentMethodDescription = cashFlow.PaymentMethodDescription;
+                    register.OtherCategoryDescription = cashFlow.OtherPaymentDescription;
+                    register.ImageName = cashFlow.ImageName;
+                    register.ImageString64 = cashFlow.ImageString64;
+                    register.Comment = cashFlow.Comment;
+                    register.IsIncome = cashFlow.IsIncome;
+
+                    _context.CashFlows.Update(register);
+                    var row = _context.SaveChanges();
+
+                    return row > 0;
+                }
+                return false;
+            }
+            catch (Exception ex)
             {
                 return false;
             }

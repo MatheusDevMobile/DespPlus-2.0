@@ -10,9 +10,11 @@
         <converters:InverterBooleanConverter x:Key="InverterBooleanConverter" />
         
         <!--COLORS-->
-        <Color x:Key="ExpenseColor">#F8777D</Color>
+        <Color x:Key="AlertColor">#F8777D</Color>
         <Color x:Key="PrimaryColor">#65BCBF</Color>
+        <Color x:Key="YellowColorDefault">#E6E466</Color>
         <Color x:Key="ColorBlueLink">#6584f0</Color>
+        <Color x:Key="ColorLighGray">#E1E1E1</Color>
         
         <!--FONTS-->
         <OnPlatform x:TypeArguments="x:String" x:Key="SFProTextRegular">

@@ -1,17 +1,17 @@
 ﻿using DespPlus.ViewModels;
-using Xamarin.Forms;
+using Rg.Plugins.Popup.Pages;
 using Xamarin.Forms.Xaml;
 
 namespace DespPlus.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class RegisterInfoModal : ContentPage
+    public partial class DetailRegister : PopupPage
     {
-        public RegisterInfoModal()
+        public DetailRegister()
         {
             InitializeComponent();
 
-            BindingContext = DependencyManager.Instance.GetInstance<RegisterInfoModalVM>();
+            BindingContext = DependencyManager.Instance.GetInstance<DetailRegisterVM>();
         }
     }
 }

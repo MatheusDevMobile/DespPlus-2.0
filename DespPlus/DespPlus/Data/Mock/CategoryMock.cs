@@ -15,50 +15,42 @@ namespace DespPlus.Data.Mock
                  new Category
                  {
                     Id = "1",
-                    Name = "Gás de Cozinha",
-                    Icon = "house.png"
+                    Name = "Gás de Cozinha"
                  },
                  new Category
                  {
                     Id = "2",
-                    Name = "Alimentação",
-                    Icon = "restaurant.png"
+                    Name = "Alimentação"
                  },
                  new Category
                  {
                     Id = "3",
-                    Name = "Combustível",
-                    Icon = "car.png"
+                    Name = "Combustível"
                  },
                  new Category
                  {
                     Id = "4",
-                    Name = "Conta de Água",
-                    Icon = "house.png"
+                    Name = "Conta de Água"
                  },
                  new Category
                  {
                     Id = "5",
-                    Name = "Conta de Luz",
-                    Icon = "house.png"
+                    Name = "Conta de Luz"
                  },
                  new Category
                  {
                     Id = "6",
-                    Name = "Conta de Telefone/Internet/TV",
-                    Icon = "house.png"
+                    Name = "Combo telefone/Internet/TV"
                  },
                  new Category
                  {
                     Id = "7",
-                    Name = "Fatura Cartão",
-                    Icon = "house.png"
+                    Name = "Fatura Cartão"
                  },
                  new Category
                  {
                     Id = "8",
-                    Name = "Outros",
-                    Icon = "house.png"
+                    Name = "Outros"
                  },
             };
         }

@@ -20,9 +20,14 @@ namespace DespPlus.Services
             return await Repository.Save(cashFlow);
         }
 
-        public async Task<bool> DeleteRegister(CashFlow cashFlow)
+        public async Task<bool> UpdateRegister(string id, CashFlow cashFlow)
         {
-            return await Repository.Delete(cashFlow);
+            return await Repository.Update(id, cashFlow);
+        }
+
+        public async Task<bool> DeleteRegister(string id)
+        {
+            return await Repository.Delete(id);
         }
 
         public async Task<List<CashFlow>> GetAllCashFlow()

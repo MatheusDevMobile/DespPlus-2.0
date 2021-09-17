@@ -60,12 +60,12 @@
 
                         <Grid Style="{StaticResource GridPicker}">
                             <Label Text="Categoria" TextColor="Black" />
-                            <Picker x:Name="category" Title="Selecione..." ItemsSource="{Binding CategoryList}" ItemDisplayBinding="{Binding Name}" SelectedItem="{Binding CategoryItem}" Style="{StaticResource PickerGridPicker}"/>
+                            <Picker x:Name="category" Title="Selecione..." ItemsSource="{Binding CategoryList, Mode=TwoWay, UpdateSourceEventName=PropertyChanged}" ItemDisplayBinding="{Binding Name}" SelectedItem="{Binding CategoryItem, Mode=TwoWay, UpdateSourceEventName=PropertyChanged}" Style="{StaticResource PickerGridPicker}"/>
                             <Label Style="{StaticResource LabelIconeGridPicker}" InputTransparent="True" Margin="0,0,8,5"/>
                         </Grid>
 
                         <Entry x:Name="otherCategory" Text="{Binding OtherCategoryDescription}" FontSize="16" IsVisible="False"
-                            Placeholder="descreva o tipo...">
+                            Placeholder="descreva a categoria..." MaxLength="30">
                             <Entry.Triggers>
                                 <DataTrigger
                                 Binding="{Binding Source={x:Reference category}, Path=SelectedIndex}"
@@ -78,12 +78,12 @@
 
                         <Grid Style="{StaticResource GridPicker}">
                             <Label Text="Forma de Pagamento" TextColor="Black" />
-                            <Picker x:Name="paymentType" Title="Selecione..." ItemsSource="{Binding PaymentMethodList}" ItemDisplayBinding="{Binding Name}" SelectedItem="{Binding PaymentMethodItem}" Style="{StaticResource PickerGridPicker}"/>
+                            <Picker x:Name="paymentType" Title="Selecione..." ItemsSource="{Binding PaymentMethodList, Mode=TwoWay, UpdateSourceEventName=PropertyChanged}" ItemDisplayBinding="{Binding Name}" SelectedItem="{Binding PaymentMethodItem, Mode=TwoWay, UpdateSourceEventName=PropertyChanged}" Style="{StaticResource PickerGridPicker}"/>
                             <Label Style="{StaticResource LabelIconeGridPicker}" InputTransparent="True" Margin="0,0,8,5"/>
                         </Grid>
 
                         <Entry x:Name="otherPayment" Text="{Binding OtherPaymentMethodDescription}" FontSize="16" IsVisible="False"
-                            Placeholder="descreva a forma de pagamento...">
+                            Placeholder="descreva a forma de pagamento..." MaxLength="30">
                             <Entry.Triggers>
                                 <DataTrigger
                                 Binding="{Binding Source={x:Reference paymentType}, Path=SelectedIndex}"
@@ -95,7 +95,7 @@
                         </Entry>
 
                         <Label Text="Observações" TextColor="Black" />
-                        <Editor Placeholder="Digite aqui.." Text="{Binding CommentDescription}" AutoSize="TextChanges" />
+                        <Editor Placeholder="máximo 30 caracteres..." Text="{Binding CommentDescription}" AutoSize="TextChanges" MaxLength="30"/>
 
                         <Label Text="{Binding SwitchTitleLabel}" TextColor="Black" IsVisible="{Binding HasImage, Converter={StaticResource InverterBooleanConverter}}"/>
                         <StackLayout Orientation="Horizontal" IsVisible="{Binding HasImage, Converter={StaticResource InverterBooleanConverter}}">
