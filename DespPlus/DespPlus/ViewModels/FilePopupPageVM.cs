@@ -16,7 +16,7 @@ namespace DespPlus.ViewModels
         {
 
         }
-        public string Title { get; set; }
+        public string Title { get; }
         public bool InProcess { get; set; }
         public ImageSource Image { get; set; }
 

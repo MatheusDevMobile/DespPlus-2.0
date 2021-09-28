@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:DespPlus.Utils"
              x:Class="DespPlus.Views.RegisterPage" 
-             NavigationPage.HasNavigationBar="True" >
+             NavigationPage.HasNavigationBar="True" BackgroundColor="#F7F7F7">
     <ContentPage.Resources>
         <ResourceDictionary>
             <Style x:Key="ButtonAddReceip" TargetType="Button">
@@ -109,7 +109,7 @@
                                     <TapGestureRecognizer Command="{Binding DeleteImageCommand}" />
                                 </Label.GestureRecognizers>
                             </Label>
-                            <Label Text="{Binding FileName}" TextDecorations="Underline" Style="{StaticResource LabelIconImageLink}" VerticalOptions="Center">
+                            <Label Text="{Binding ImageName}" TextDecorations="Underline" Style="{StaticResource LabelIconImageLink}" VerticalOptions="Center">
                                 <Label.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding OpenFileCommand}"/>
                                 </Label.GestureRecognizers>
@@ -121,10 +121,10 @@
                             Text="Como deseja adicionar seu comprovante?"
                             TextColor="Black" />
                             <StackLayout Orientation="Horizontal">
-                                <ImageButton BackgroundColor="Transparent" Clicked="PhotoCamera" CornerRadius="30" HeightRequest="40" HorizontalOptions="CenterAndExpand"
+                                <ImageButton BackgroundColor="Transparent" CornerRadius="30" HeightRequest="40" HorizontalOptions="CenterAndExpand"
                                     Source="iconCamera" Command="{Binding OpenCameraCommand}"
                                     WidthRequest="40" />
-                                <ImageButton BackgroundColor="Transparent" Clicked="OnPickPhotoButtonClicked" CornerRadius="30" HeightRequest="40" HorizontalOptions="CenterAndExpand"
+                                <ImageButton BackgroundColor="Transparent" CornerRadius="30" HeightRequest="40" HorizontalOptions="CenterAndExpand"
                                     Source="iconGallery" Command="{Binding OpenPhotoLibraryCommand}"
                                     WidthRequest="40" />
                             </StackLayout>

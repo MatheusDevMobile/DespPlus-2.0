@@ -1,4 +1,5 @@
-﻿using DespPlus.Services.Interface;
+﻿using DespPlus.Models;
+using DespPlus.Services.Interface;
 using System;
 using System.IO;
 using System.Threading.Tasks;
@@ -17,76 +18,77 @@ namespace DespPlus.Services
             return newFileName;
         }
 
-        public async Task<(ImageSource, string, string)> LoadPhotoAsync(FileResult photo)
+        public async Task<ImageReceip> GetImageInformation(FileResult photo)
         {
             if (photo == null)
-                return (null, "", "");
+                return null;
 
+            var ImageReceip = new ImageReceip();
             var memotyStream = new MemoryStream();
 
             var stream = await photo.OpenReadAsync();
             stream.CopyTo(memotyStream);
             var byteFile = memotyStream.ToArray();
 
-            var base64 = Convert.ToBase64String(byteFile);
+            ImageReceip.Base64 = Convert.ToBase64String(byteFile);
 
-            var image = ImageSource.FromStream(() =>
+            ImageReceip.ImageSource = ImageSource.FromStream(() =>
             {
                 return new MemoryStream(byteFile);
             });
 
-            var imageName = ChangeFileName(photo.FileName);
+            ImageReceip.ImageName = ChangeFileName(photo.FileName);
 
-            return (image, imageName, base64);
+            return ImageReceip;
         }
 
-        public async Task<(ImageSource, string, string)> PickPhotoFromLibraryAsync()
+        public async Task<ImageReceip> PickPhotoFromLibrary()
         {
             try
             {
-                var photoLibrary = await MediaPicker.PickPhotoAsync();
-                var imageSource = await LoadPhotoAsync(photoLibrary);
+                var ImageReceip = new ImageReceip();
 
-                return imageSource;
+                var photoLibrary = await MediaPicker.PickPhotoAsync();
+
+                return await GetImageInformation(photoLibrary);
             }
             catch (FeatureNotSupportedException fnsEx)
             {
                 // Feature is not supported on the device
-                return (null, "", "");
+                return null;
             }
             catch (PermissionException pEx)
             {
                 // Permissions not granted
-                return (null, "", "");
+                return null;
             }
             catch (Exception ex)
             {
-                return (null, "", "");
+                return null;
             }
         }
 
-        public async Task<(ImageSource, string, string)> TakePhotoAsync()
+        public async Task<ImageReceip> TakePhoto()
         {
             try
             {
                 var photoCamera = await MediaPicker.CapturePhotoAsync();
-                var imageSource = await LoadPhotoAsync(photoCamera);
 
-                return imageSource;
+                return await GetImageInformation(photoCamera);
             }
             catch (FeatureNotSupportedException fnsEx)
             {
                 // Feature is not supported on the device
-                return (null, "", "");
+                return null;
             }
             catch (PermissionException pEx)
             {
                 // Permissions not granted
-                return (null, "", "");
+                return null;
             }
             catch (Exception ex)
             {
-                return (null, "", "");
+                return null;
             }
         }
     }

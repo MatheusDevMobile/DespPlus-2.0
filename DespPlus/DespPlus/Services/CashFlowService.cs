@@ -3,15 +3,14 @@ using DespPlus.Models;
 using DespPlus.Services.Interface;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DespPlus.Services
 {
     public class CashFlowService : ICashFlowService
     {
-        protected ICashFlowRepository Repository { get; }
-        public CashFlowService(ICashFlowRepository repository)
+        protected IRegisterRepository<CashFlow> Repository { get; }
+        public CashFlowService(IRegisterRepository<CashFlow> repository)
         {
             Repository = repository;
         }

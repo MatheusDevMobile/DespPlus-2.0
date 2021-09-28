@@ -1,5 +1,6 @@
 ﻿using DespPlus.Models;
 using DespPlus.Services.Interface;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
@@ -70,12 +71,32 @@ namespace DespPlus.Data.Mock
             };
         }
 
+        public Task<bool> CreatePaymentMethod(PaymentMethod paymentMethod)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<bool> DeletePaymentMethod(string id)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public async Task<ObservableCollection<PaymentMethod>> GetPaymentMethods()
         {
             return await Task.Run(() =>
             {
                 return _paymentMethods;
             });
+        }
+
+        public Task<bool> UpdatePaymentMethod(string id, PaymentMethod paymentMethod)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        Task<List<PaymentMethod>> IPaymentMethodService.GetPaymentMethods()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

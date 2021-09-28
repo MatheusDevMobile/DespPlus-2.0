@@ -33,7 +33,7 @@ namespace DespPlus.ViewModels
             NavigatorService = navigatorService;
         }
         
-        public string Title { get; set; } = "Detalhes";
+        public string Title => "Detalhes";
         public bool HasOtherCategoryDescription { get; set; }
         public bool HasOtherPaymentDescription { get; set; }
         public bool HasComment { get; set; }

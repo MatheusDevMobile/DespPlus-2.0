@@ -4,11 +4,11 @@ using System.Threading.Tasks;
 
 namespace DespPlus.Data.Repository.Interface
 {
-    public interface ICashFlowRepository
+    public interface IRegisterRepository<T>
     {
-        Task<bool> Save(CashFlow cashFlow);
-        Task<bool> Update(string id, CashFlow cashFlow);
+        Task<bool> Save(T register);
+        Task<bool> Update(string id, T register);
         Task<bool> Delete(string id);
-        Task<List<CashFlow>> GetAll();
+        Task<List<T>> GetAll();
     }
 }

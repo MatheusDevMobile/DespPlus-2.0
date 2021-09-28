@@ -1,7 +1,6 @@
 ﻿using DespPlus.Services.Interface;
 using DespPlus.ViewModels.Interfaces;
 using DespPlus.Views;
-using DespPlus.Views.Tabbed;
 using Rg.Plugins.Popup.Extensions;
 using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.Services;
@@ -67,6 +66,21 @@ namespace DespPlus.Services
                         break;
                     case nameof(FilePopupPage):
                         page = new FilePopupPage();
+                        break;
+                    case nameof(SettingsPage):
+                        page = new SettingsPage();
+                        break;
+                    case nameof(PaymentMethodPage):
+                        page = new PaymentMethodPage();
+                        break;
+                    case nameof(CategoryPage):
+                        page = new CategoryPage();
+                        break;
+                    case nameof(CategoryPopup):
+                        page = new CategoryPopup();
+                        break;
+                    case nameof(PaymentMethodPopup):
+                        page = new PaymentMethodPopup();
                         break;
 
                 }

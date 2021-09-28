@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace DespPlus.Views.Tabbed
+namespace DespPlus.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MainPage : TabbedPage
@@ -20,14 +20,14 @@ namespace DespPlus.Views.Tabbed
         protected override void OnAppearing()
         {
             var vm = BindingContext as MainPageVM;
-            Task.Run(() => { vm.ExecuteRefreshCommand(); });
+            Task.Run(async () => { await vm.ExecuteRefreshCommand(); });
         }
 
-        private void OpenModalRegisterInfoEvent(object sender, EventArgs e)
+        private async void OpenModalRegisterInfoEvent(object sender, EventArgs e)
         {
             var param = ((TappedEventArgs)e).Parameter;
             var vm = BindingContext as MainPageVM;
-            vm.OpenRegisterInfo((CashFlow)param);
+            await vm.OpenRegisterInfo((CashFlow)param);
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using DespPlus.Interface;
 using System;
 
-namespace DespPlus.Aplication
+namespace DespPlus.ApplicationApp
 {
     public class EnterpriseAplication
     {

@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:PopupPage  xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+             xmlns:animations="clr-namespace:Rg.Plugins.Popup.Animations;assembly=Rg.Plugins.Popup" xmlns:forms="clr-namespace:Lottie.Forms;assembly=Lottie.Forms"
+             x:Class="DespPlus.Views.CategoryPopup">
+
+
+    <pages:PopupPage.Animation>
+        <animations:ScaleAnimation 
+            PositionIn="Center"
+            PositionOut="Center"
+            ScaleIn="1.2"
+            ScaleOut="0.8"
+            DurationIn="400"
+            DurationOut="300"
+            EasingIn="SinOut"
+            EasingOut="SinIn"
+            HasBackgroundAnimation="True"/>
+    </pages:PopupPage.Animation>
+    <StackLayout Style="{StaticResource StackPopup}">
+        <Frame BackgroundColor="#FFFFFF" CornerRadius="5" Margin="20,0" VerticalOptions="CenterAndExpand">
+            <StackLayout>
+                <StackLayout IsVisible="{Binding IsSuccess, Converter={StaticResource InverterBooleanConverter}}">
+                    <Label Text="{Binding ErrorMessage}" IsVisible="{Binding HasErrorField}" TextColor="{StaticResource AlertColor}"/>
+                    <Label Text="Nome"/>
+                    <Entry Text="{Binding Name}" Placeholder="ex: Alimentação" IsEnabled="{Binding InProcess, Converter={StaticResource InverterBooleanConverter}}" MaxLength="30"/>
+                    <Label Text="Tipo da Categoria"/>
+                    <StackLayout Orientation="Horizontal" Margin="0,0,0,10">
+                        <RadioButton IsChecked="{Binding IsExpense}" IsEnabled="{Binding InProcess, Converter={StaticResource InverterBooleanConverter}}"/>
+                        <Label Text="Despesa" VerticalOptions="CenterAndExpand"/>
+                        <RadioButton IsChecked="{Binding IsIncome}" IsEnabled="{Binding InProcess, Converter={StaticResource InverterBooleanConverter}}"/>
+                        <Label Text="Rendimento" VerticalOptions="CenterAndExpand"/>
+                    </StackLayout>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.5*"/>
+                            <ColumnDefinition Width="0.5*"/>
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Column="0" Command="{Binding RegisterCommand}" IsEnabled="{Binding InProcess, Converter={StaticResource InverterBooleanConverter}}" Style="{StaticResource ButtonSavePopup}"/>
+                        <Button Grid.Column="1" Command="{Binding GoBackCommand}" IsEnabled="{Binding InProcess, Converter={StaticResource InverterBooleanConverter}}" Style="{StaticResource ButtonCancelPopup}"/>
+                    </Grid>
+                </StackLayout>
+                
+                <ActivityIndicator IsRunning="{Binding InProcess}" IsVisible="{Binding InProcess}" HeightRequest="50" WidthRequest="50" Color="{StaticResource PrimaryColor}"/>
+                <forms:AnimationView IsVisible="{Binding IsSuccess}" Animation="success.json" AutoPlay="True" HeightRequest="60" WidthRequest="60"/>
+            </StackLayout>
+        </Frame>
+    </StackLayout>
+
+
+</pages:PopupPage>

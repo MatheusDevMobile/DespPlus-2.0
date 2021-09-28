@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DespPlus.Data.Repository
 {
-    public class CashFlowRepository : ICashFlowRepository
+    public class CashFlowRepository : IRegisterRepository<CashFlow>
     {
         private DespPlusContext _context;
         public async Task<bool> Delete(string id)

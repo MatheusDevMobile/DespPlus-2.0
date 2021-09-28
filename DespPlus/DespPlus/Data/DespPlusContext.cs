@@ -6,6 +6,8 @@ namespace DespPlus.Data
     public class DespPlusContext : DbContext
     {
         public DbSet<CashFlow> CashFlows { get; set; }
+        public DbSet<PaymentMethod> PaymentMethods { get; set; }
+        public DbSet<Category> Categories { get; set; }
         public DespPlusContext()
         {
             SQLitePCL.Batteries_V2.Init();

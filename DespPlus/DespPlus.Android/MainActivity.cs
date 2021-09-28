@@ -2,7 +2,7 @@
 using Android.Content.PM;
 using Android.Runtime;
 using Android.OS;
-using DespPlus.Aplication;
+using DespPlus.ApplicationApp;
 
 namespace DespPlus.Droid
 {
@@ -28,10 +28,10 @@ namespace DespPlus.Droid
 
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
+        //public override void OnBackPressed()
+        //{
+        //    Rg.Plugins.Popup.Popup.SendBackPressed(base.OnBackPressed);
+        //}
 
-        public override void OnBackPressed()
-        {
-            Rg.Plugins.Popup.Popup.SendBackPressed(base.OnBackPressed);
-        }
     }
 }

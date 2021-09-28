@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="DespPlus.Views.SettingsPage" BackgroundColor="#F7F7F7" >
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="labelOptionSetting" TargetType="Label">
+                <Setter Property="FontFamily" Value="{StaticResource SFProTextBold}"/>
+                <Setter Property="FontSize" Value="15"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <NavigationPage.TitleView>
+        <Label Text="{Binding Title}" Style="{StaticResource LabelTitlePage}" />
+    </NavigationPage.TitleView>
+    <ContentPage.Content>
+        <StackLayout Spacing="0">
+            <Label Text="Registro" Margin="10,20,10,10"/>
+            <Frame Padding="15" HasShadow="False">
+                <StackLayout Orientation="Horizontal">
+                    <Label Text="Gerenciar Categorias" Style="{StaticResource labelOptionSetting}"/>
+                    <Image Source="rightArrow" HorizontalOptions="EndAndExpand"/>
+                </StackLayout>
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding GoToCategoryPage}"/>
+                </Frame.GestureRecognizers>
+            </Frame>
+            <BoxView BackgroundColor="LightGray" HeightRequest="0.4" />
+            <Frame Padding="15" HasShadow="False">
+                <StackLayout Orientation="Horizontal">
+                    <Label Text="Gerenciar Formas de Pagamento" Style="{StaticResource labelOptionSetting}"/>
+                    <Image Source="rightArrow" HorizontalOptions="EndAndExpand"/>
+                </StackLayout>
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding GoToPaymentMethodPage}"/>
+                </Frame.GestureRecognizers>
+            </Frame>
+            <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" VerticalOptions="EndAndExpand" Margin="20">
+                <Label Text="{Binding AppVersion}" HorizontalOptions="EndAndExpand" FontFamily="{StaticResource SFProTextRegular}" VerticalOptions="Center"/>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

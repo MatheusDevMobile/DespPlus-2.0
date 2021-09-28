@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="DespPlus.Views.CategoryPage">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <NavigationPage.TitleView>
+        <Label Text="{Binding Title}" Style="{StaticResource LabelTitlePage}"/>
+    </NavigationPage.TitleView>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem IconImageSource="addIcon"
+                     Command="{Binding OpenCategoryPopupCommand}"
+                     Order="Primary"
+                     Priority="1" />
+    </ContentPage.ToolbarItems>
+    <ListView ItemsSource="{Binding Categories}">
+        <ListView.ItemTemplate>
+            <DataTemplate>
+                <ViewCell>
+                    <SwipeView x:Name="categoryItem">
+                        <SwipeView.RightItems>
+                            <SwipeItemView>
+                                <StackLayout Orientation="Horizontal" Spacing="0">
+                                    <Button Text="Edit" FontSize="20" FontFamily="{StaticResource FontAwesomeSolid}" Clicked="EditCategoryEvent" CommandParameter="{Binding Source={x:Reference categoryItem}, Path=BindingContext}" BackgroundColor="{StaticResource PrimaryColor}" TextColor="#FFFFFF" CornerRadius="0" WidthRequest="50"/>
+                                    <Button Text="&#xf2ed;" FontSize="20" FontFamily="{StaticResource FontAwesomeSolid}" Clicked="DeleteCategoryEvent" CommandParameter="{Binding Source={x:Reference categoryItem}, Path=BindingContext}" BackgroundColor="{StaticResource AlertColor}" TextColor="#FFFFFF" CornerRadius="0" WidthRequest="50"/>
+                                </StackLayout>
+                            </SwipeItemView>
+                        </SwipeView.RightItems>
+                        <StackLayout Orientation="Horizontal">
+                            <BoxView BackgroundColor="{StaticResource AlertColor}" WidthRequest="8"/>
+                            <Label Text="{Binding Name}" TextColor="Black" VerticalOptions="CenterAndExpand" FontSize="16" Margin="10,0,0,0"/>
+                            <Label Text="&#xf0a5;" FontFamily="{StaticResource FontAwesomeRegular}" FontSize="20" HorizontalOptions="EndAndExpand" VerticalOptions="CenterAndExpand" Margin="0,0,10,0"/>
+                        </StackLayout>
+                    </SwipeView>
+                </ViewCell>
+            </DataTemplate>
+        </ListView.ItemTemplate>
+    </ListView>
+</ContentPage>

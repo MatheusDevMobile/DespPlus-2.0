@@ -3,9 +3,8 @@ using DespPlus.Models;
 using DespPlus.Services.Interface;
 using DespPlus.ViewModels.Interfaces;
 using ProgressRingControl.Forms.Plugin;
-using System;
+using Xamarin.Essentials;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,6 +18,8 @@ namespace DespPlus.ViewModels
         public event PropertyChangedEventHandler PropertyChanged;
         protected INavigatorService NavigatorService { get; }
         protected ICashFlowService CashFlowService { get; }
+        public ICommand OpenInfoRegisterCommand { get; }
+        public ICommand GoToSettingsCommand { get; }
         public ICommand GoToRegisterCommand { get; }
         public ICommand RefreshCommand { get; }
         public ICommand DeleteCommand { get; }
@@ -28,27 +29,30 @@ namespace DespPlus.ViewModels
             NavigatorService = navigatorService;
 
             RefreshCommand = new Command(async () => { await ExecuteRefreshCommand(); });
-            GoToRegisterCommand = new Command(() => GoToRegister());
+            GoToSettingsCommand = new Command(async () => await NavigatorService.NavigateToAsync("SettingsPage"));
+            GoToRegisterCommand = new Command(async () => await NavigatorService.NavigateToAsync("RegisterPage"));
+            OpenInfoRegisterCommand = new Command(async (param) => await OpenRegisterInfo((CashFlow)param));
         }
+
         public double TotalIncomesValue { get; set; }
         public double TotalExpensesValue { get; set; }
         public bool IsRefreshing { get; set; }
         public double TotalPercentage { get; set; }
-        public ObservableCollection<CashFlow> CashFlows { get; set; } = new ObservableCollection<CashFlow>();
-        public Animation Animation { get; set; }
         public double AnimationProgressPercentage { get; set; }
-        public string Title { get; set; } = DateTime.Today.ToString("dddd, dd MMMM DE yyyy").ToUpper();
+        public string Title => $"Olá {DeviceInfo.Name}!";
+        public Animation Animation { get; set; }
+        public List<CashFlow> CashFlows { get; set; } = new List<CashFlow>();
         public async Task ReceiveNavigationParameters(IReadOnlyDictionary<string, object> parameters)
         {
             if (parameters != null && parameters.TryGetValue(ParametersName.ReloadPage, out var reloadPage))
             {
                 if ((bool)reloadPage)
                 {
-                    ExecuteRefreshCommand();
+                    await ExecuteRefreshCommand();
                 }
             }
         }
-
+       
         private void GetTotalPercentage()
         {
             var percentage = 0d;
@@ -100,7 +104,8 @@ namespace DespPlus.ViewModels
         public async Task ExecuteRefreshCommand()
         {
             CashFlows.Clear();
-            CashFlows = new ObservableCollection<CashFlow>(await CashFlowService.GetAllCashFlow());
+            var cashFlowList = await CashFlowService.GetAllCashFlow();
+            CashFlows = new List<CashFlow>(cashFlowList.OrderByDescending(c => c.Date).OrderByDescending(c => c.Time));
 
             GetTotalPercentage();
             ShowPercentageValuesAnimation();
@@ -108,12 +113,7 @@ namespace DespPlus.ViewModels
             IsRefreshing = false;
         }
 
-        private async void GoToRegister()
-        {
-            await NavigatorService.NavigateToAsync("RegisterPage");
-        }
-
-        internal async void OpenRegisterInfo(CashFlow cashFlow)
+        internal async Task OpenRegisterInfo(CashFlow cashFlow)
         {
             var parametros = ConstructorParameters.Init(ParametersName.CashFlow, cashFlow).GenerateParameters();
             await NavigatorService.NavigateToAsync("DetailRegister", parametros);
@@ -123,7 +123,7 @@ namespace DespPlus.ViewModels
         {
             if (await CashFlowService.DeleteRegister(id))
             {
-                ExecuteRefreshCommand();
+                await ExecuteRefreshCommand();
                 return true;
             }
             return false;

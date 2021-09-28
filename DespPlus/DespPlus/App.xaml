@@ -15,6 +15,7 @@
         <Color x:Key="YellowColorDefault">#E6E466</Color>
         <Color x:Key="ColorBlueLink">#6584f0</Color>
         <Color x:Key="ColorLighGray">#E1E1E1</Color>
+        <Color x:Key="ColorWhite">#FFFFFF</Color>
         
         <!--FONTS-->
         <OnPlatform x:TypeArguments="x:String" x:Key="SFProTextRegular">
@@ -24,6 +25,10 @@
         <OnPlatform x:TypeArguments="x:String" x:Key="SFProTextBold">
             <On Platform="Android" Value="Fonts/SFProText-Bold.ttf#SFProText-Bold" />
             <On Platform="iOS" Value="SFProTextBold" />
+        </OnPlatform>
+        <OnPlatform x:TypeArguments="x:String" x:Key="MichromaRegular">
+            <On Platform="Android" Value="Fonts/Michroma-Regular.ttf#Michroma-Regular" />
+            <On Platform="iOS" Value="MichromaRegular" />
         </OnPlatform>
         
         <!--FONTAWESOME-->
@@ -42,19 +47,24 @@
             <On Platform="iOS" Value="FontAwesome5Free-Regular" />
         </OnPlatform>
 
-        <!-- Picker -->
-        <Style x:Key="PickerGridPicker" TargetType="Picker">
-            <Setter Property="Grid.Row" Value="1"/>
-            <Setter Property="FontFamily" Value="{StaticResource SFProTextRegular}"/>
-            <Setter Property="Margin" Value="-4,0,-2,0"/>
+        <!--NAVIGATION PAGE-->
+        <Style TargetType="NavigationPage">
+            <Setter Property="BarBackground" Value="{StaticResource PrimaryColor}"/>
+            <Setter Property="BarBackgroundColor" Value="{StaticResource PrimaryColor}"/>
         </Style>
-        
+
         <!--LABEL-->
         <Style TargetType="Label">
             <Setter Property="FontFamily" Value="{StaticResource SFProTextRegular}"/>
         </Style>
+
+        <Style x:Key="LabelTitlePage" TargetType="Label">
+            <Setter Property="FontFamily" Value="{StaticResource SFProTextBold}"/>
+            <Setter Property="TextColor" Value="{StaticResource ColorWhite}"/>
+            <Setter Property="TextTransform" Value="Uppercase"/>
+        </Style>
         
-        <Style x:Key="LabelGenericoComIcone" TargetType="Label">
+        <Style x:Key="LabelGenericoComIcone" TargetType="Label" >
             <Setter Property="FontFamily" Value="{StaticResource FontAwesomeRegular}"/>
             <Setter Property="TextColor" Value="Gray"/>
         </Style>
@@ -92,13 +102,42 @@
             <Setter Property="HorizontalOptions" Value="End"/>
             <Setter Property="Margin" Value="0,0,8,16"/>
         </Style>
-
-        <!--NAVIGATION PAGE-->
-        <Style TargetType="NavigationPage">
-            <Setter Property="BarBackground" Value="{StaticResource PrimaryColor}"/>
-            <Setter Property="BarBackgroundColor" Value="{StaticResource PrimaryColor}"/>
+        
+        <!-- PICKER -->
+        <Style x:Key="PickerGridPicker" TargetType="Picker">
+            <Setter Property="Grid.Row" Value="1"/>
+            <Setter Property="FontFamily" Value="{StaticResource SFProTextRegular}"/>
+            <Setter Property="Margin" Value="-4,0,-2,0"/>
         </Style>
-
+        
+        <!--BUTTON-->
+        <Style x:Key="ButtonSavePopup" TargetType="Button">
+            <Setter Property="Text" Value="&#xf0c7;"/>
+            <Setter Property="BackgroundColor" Value="{StaticResource PrimaryColor}"/>
+            <Setter Property="TextColor" Value="{StaticResource ColorWhite}"/>
+            <Setter Property="CornerRadius" Value="5"/>
+            <Setter Property="FontFamily" Value="{StaticResource FontAwesomeSolid}"/>
+            <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+            <Setter Property="FontSize" Value="20"/>
+        </Style>
+        
+        <Style x:Key="ButtonCancelPopup" TargetType="Button" BasedOn="{StaticResource ButtonSavePopup}">
+            <Setter Property="Text" Value="&#xf00d;"/>
+            <Setter Property="BackgroundColor" Value="{StaticResource AlertColor}"/>
+            <Setter Property="TextColor" Value="{StaticResource ColorWhite}"/>
+            <Setter Property="CornerRadius" Value="5"/>
+            <Setter Property="FontFamily" Value="{StaticResource FontAwesomeSolid}"/>
+            <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+            <Setter Property="FontSize" Value="20"/>
+        </Style>
+        
+        <!--STACKLAYOUT-->
+        <Style x:Key="StackPopup" TargetType="StackLayout">
+            <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+            <Setter Property="VerticalOptions" Value="FillAndExpand"/>
+        </Style>
+        
+        <!--GRID-->
         <RowDefinitionCollection x:Key="EntryGridRowsDefinitions">
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />

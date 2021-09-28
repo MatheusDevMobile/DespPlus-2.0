@@ -2,6 +2,7 @@
 using DespPlus.Helpers;
 using DespPlus.Models;
 using DespPlus.Services.Interface;
+using DespPlus.Validators;
 using DespPlus.ViewModels.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,7 @@ namespace DespPlus.ViewModels
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
+        protected RegisterValidator Validator { get; }
         protected ICashFlowService CashFlowService { get; }
         protected IPickPhotoService PickPhotoService { get; }
         protected INavigatorService NavigatorService { get; }
@@ -30,7 +32,7 @@ namespace DespPlus.ViewModels
         public ICommand OpenCameraCommand { get; }
         public ICommand OpenPhotoLibraryCommand { get; }
         public ICommand OpenFileCommand { get; }
-        public RegisterVM(ICashFlowService cashFlowService, IPickPhotoService pickPhotoService, INavigatorService navigatorService, ICategoryService cashFlowTypeService, IPaymentMethodService paymentMethodService)
+        public RegisterVM(ICashFlowService cashFlowService, IPickPhotoService pickPhotoService, INavigatorService navigatorService, ICategoryService cashFlowTypeService, IPaymentMethodService paymentMethodService, RegisterValidator validator)
         {
             CashFlowService = cashFlowService;
             PickPhotoService = pickPhotoService;
@@ -43,6 +45,7 @@ namespace DespPlus.ViewModels
             OpenCameraCommand = new Command(() => { OpenCamera(); });
             DeleteImageCommand = new Command(() => { DeleteImage(); });
             OpenPhotoLibraryCommand = new Command(() => { OpenPhotoLibrary(); });
+            Validator = validator;
         }
 
         public bool IsEdit { get; set; }
@@ -54,26 +57,27 @@ namespace DespPlus.ViewModels
         public string SwitchTitleLabel => "Adicionar Comprovante?";
         public string ValueLabel { get; set; }
         public string CashFlowType { get; set; }
-        public ImageSource ReceipPhotoSource { get; set; }
-        public string FileName { get; set; }
+        public string ImageName { get; set; }
         public string Base64 { get; set; }
         public string CheckingCopyPhotoName { get; set; }
-        public CashFlow CashFlowRegister { get; set; }
-        public Category CategoryItem { get; set; } = new Category();
         public string OtherCategoryDescription { get; set; }
-        public PaymentMethod PaymentMethodItem { get; set; }
         public string OtherPaymentMethodDescription { get; set; }
         public string CommentDescription { get; set; }
+        public string Title => "REGISTRO";
+        public ImageReceip ImageReceip { get; set; }
+        public ImageSource ReceipPhotoSource { get; set; }
+        public CashFlow CashFlowRegister { get; set; }
+        public PaymentMethod PaymentMethodItem { get; set; }
+        public Category CategoryItem { get; set; } = new Category();
         public DateTime DateLabel { get; set; } = DateTime.Today;
         public TimeSpan TimeLabel { get; set; } = DateTime.Now.TimeOfDay;
         public ObservableCollection<Category> CategoryList { get; set; }
         public ObservableCollection<PaymentMethod> PaymentMethodList { get; set; }
-        public string Title { get; set; } = "REGISTRO";
 
         public async Task ReceiveNavigationParameters(IReadOnlyDictionary<string, object> parameters)
         {
-            CategoryList = await CashFlowTypeService.GetCategories();
-            PaymentMethodList = await PaymentMethodService.GetPaymentMethods();
+            //CategoryList = await CashFlowTypeService.GetCategories();
+            //PaymentMethodList = await PaymentMethodService.GetPaymentMethods();
 
             if (parameters != null && parameters.TryGetValue(ParametersName.EditRegister, out var cashFlowParam))
             {
@@ -96,7 +100,7 @@ namespace DespPlus.ViewModels
                 PaymentMethodItem = PaymentMethodList.FirstOrDefault(c => c.Name.Equals(CashFlowRegister.PaymentMethodDescription));
                 Base64 = CashFlowRegister.ImageString64;
                 HasImage = CashFlowRegister.ImageString64 != null;
-                FileName = CashFlowRegister.ImageName;
+                ImageName = CashFlowRegister.ImageName;
 
                 ReceipPhotoSource = ImageSource.FromStream(() =>
                 {
@@ -113,12 +117,12 @@ namespace DespPlus.ViewModels
         }
         private async void OpenPhotoLibrary()
         {
-            var imageSource = await PickPhotoService.PickPhotoFromLibraryAsync();
-            if (imageSource.Item1 != null)
+            var imageReceip = await PickPhotoService.PickPhotoFromLibrary();
+            if (imageReceip != null)
             {
-                ReceipPhotoSource = imageSource.Item1;
-                FileName = imageSource.Item2;
-                Base64 = imageSource.Item3;
+                ReceipPhotoSource = imageReceip.ImageSource;
+                ImageName = imageReceip.ImageName;
+                Base64 = imageReceip.Base64;
                 AddImageSwitch = false;
                 HasImage = true;
             }
@@ -126,12 +130,12 @@ namespace DespPlus.ViewModels
 
         private async void OpenCamera()
         {
-            var imageSource = await PickPhotoService.TakePhotoAsync();
-            if (imageSource.Item1 != null)
+            var imageReceip = await PickPhotoService.TakePhoto();
+            if (imageReceip != null)
             {
-                ReceipPhotoSource = imageSource.Item1;
-                FileName = imageSource.Item2;
-                Base64 = imageSource.Item3;
+                ReceipPhotoSource = imageReceip.ImageSource;
+                ImageName = imageReceip.ImageName;
+                Base64 = imageReceip.Base64;
                 AddImageSwitch = false;
                 HasImage = true;
             }
@@ -150,6 +154,24 @@ namespace DespPlus.ViewModels
 
         private async void SaveRegister()
         {
+            var CashFlowRegister = new CashFlow {
+                Date = DateLabel,
+                Time = TimeLabel,
+                IsIncome = this.IsIncome,
+                Value = double.Parse(ValueLabel, CultureInfo.GetCultureInfo("pt-br")),
+                ValueLabel = this.ValueLabel,
+                PaymentMethodDescription = PaymentMethodItem.Name,
+                OtherPaymentDescription = this.OtherPaymentMethodDescription,
+                CategoryDescription = CategoryItem.Name,
+                OtherCategoryDescription = OtherCategoryDescription,
+                ImageName = this.ImageName,
+                ImageString64 = Base64,
+
+                Comment = CommentDescription
+            };
+
+            var isValid = Validator.Validate(CashFlowRegister);
+
             var toStringValue = ValueLabel.Replace("R$ ", "").Replace(",", "").Replace(".", "");
             var prepareToStringValue = toStringValue.Insert(toStringValue.Length - 2, ",");
             var idRegister = Guid.NewGuid().ToString();
@@ -169,7 +191,7 @@ namespace DespPlus.ViewModels
                 OtherPaymentDescription = this.OtherPaymentMethodDescription,
                 CategoryDescription = CategoryItem.Name,
                 OtherCategoryDescription = OtherCategoryDescription,
-                ImageName = FileName,
+                ImageName = this.ImageName,
                 ImageString64 = Base64,
 
                 Comment = CommentDescription

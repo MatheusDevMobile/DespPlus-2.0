@@ -40,12 +40,12 @@ namespace DespPlus.Models
         private string GetIcon()
         {
             string icon;
-            switch (Id)
+            switch (CategoryDescription)
             {
-                case "2":
+                case "Alimentação":
                     icon = "restaurant.png";
                     break;
-                case "3":
+                case "Combutível":
                     icon = "car.png";
                     break;
                 default:

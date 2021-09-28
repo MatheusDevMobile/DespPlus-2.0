@@ -1,16 +1,16 @@
-﻿using DespPlus.Data;
-using DespPlus.Data.Mock;
-using DespPlus.Data.Repository;
+﻿using DespPlus.Data.Repository;
 using DespPlus.Data.Repository.Interface;
 using DespPlus.Interface;
+using DespPlus.Models;
 using DespPlus.Services;
 using DespPlus.Services.Interface;
+using DespPlus.Validators;
 using DespPlus.ViewModels;
 using SimpleInjector;
 using System;
 using System.Collections.Generic;
 
-namespace DespPlus.Aplication
+namespace DespPlus.ApplicationApp
 {
     public class Factory : DependencyManager<Factory>
     {
@@ -22,6 +22,14 @@ namespace DespPlus.Aplication
             ConfigureViewModels();
             ConfigureServices();
             ConfigureRepositories();
+            ConfigureValidators();
+        }
+
+        private void ConfigureValidators()
+        {
+            Container.Register<RegisterValidator>();
+            Container.Register<CategoryPopupValidator>();
+            Container.Register<PaymentMethodPopupValidator>();
         }
 
         private void ConfigureViewModels()
@@ -30,6 +38,11 @@ namespace DespPlus.Aplication
             Container.Register<RegisterVM>();
             Container.Register<DetailRegisterVM>();
             Container.Register<FilePopupPageVM>();
+            Container.Register<SettingsPageVM>();
+            Container.Register<PaymentMethodPageVM>();
+            Container.Register<CategoryPageVM>();
+            Container.Register<PaymentMethodPopupVM>();
+            Container.Register<CategoryPopupVM>();
         }
 
         private void ConfigureServices()
@@ -38,15 +51,17 @@ namespace DespPlus.Aplication
             Container.Register<INavigatorService, NavigatorService>(Lifestyle.Singleton);
             Container.Register<IHandleExeptionService, HandleExeptionService>(Lifestyle.Singleton);
             Container.Register<IPickPhotoService, PickPhotoService>();
-            Container.Register<ICategoryService, CategoryMock>();
-            Container.Register<IPaymentMethodService, PaymentMethodMock>();
+            Container.Register<ICategoryService, CategoryService>();
+            Container.Register<IPaymentMethodService, PaymentMethodService>();
 
             Container.RegisterInstance<IShowAlertService>(new ShowAlertService());
         }
 
         private void ConfigureRepositories()
         {
-            Container.Register<ICashFlowRepository, CashFlowRepository>();
+            Container.Register<IRegisterRepository<CashFlow>, CashFlowRepository>();
+            Container.Register<IRegisterRepository<Category>, CategoryRepository>();
+            Container.Register<IRegisterRepository<PaymentMethod>, PaymentMethodRepository>();
         }
 
         public override object GetInstance(Type type)
