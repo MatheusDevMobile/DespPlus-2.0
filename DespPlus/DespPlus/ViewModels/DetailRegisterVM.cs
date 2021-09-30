@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.UI.Views;
@@ -16,49 +17,56 @@ namespace DespPlus.ViewModels
     public class DetailRegisterVM : IViewModel, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
-        protected ICashFlowService Service { get; }
+        protected ICashFlowService CashFlowService { get; }
         protected INavigatorService NavigatorService { get; }
+        protected ICategoryService CategoryService { get; }
+        protected IPaymentMethodService PaymentMethodService { get; }
         public ICommand EditRegisterCommand { get; }
         public ICommand DeleteRegisterCommand { get; }
         public ICommand OpenImageCommand { get; }
         public ICommand ClosePopupCommand { get; }
-        public DetailRegisterVM(ICashFlowService service, INavigatorService navigatorService)
+        public DetailRegisterVM(ICashFlowService service, INavigatorService navigatorService, ICategoryService categoryService, IPaymentMethodService paymentMethodService)
         {
-            Service = service;
+            CashFlowService = service;
+            NavigatorService = navigatorService;
+            CategoryService = categoryService;
+            PaymentMethodService = paymentMethodService;
 
             OpenImageCommand = new Command(async () => { await OpenImage(); });
             ClosePopupCommand = new Command(async () => { await ClosePopup(); });
             EditRegisterCommand = new Command(async () => { await EditRegister(); });
             DeleteRegisterCommand = new Command(async () => { await DeleteRegister(); });
-            NavigatorService = navigatorService;
         }
-        
+
         public string Title => "Detalhes";
-        public bool HasOtherCategoryDescription { get; set; }
-        public bool HasOtherPaymentDescription { get; set; }
+        public string TimeLabel { get; set; }
+        public string ImageLabel { get; set; }
+        public string CategoryDescription { get; set; }
+        public string PaymentMethodDescription { get; set; }
         public bool HasComment { get; set; }
         public bool HasImage { get; set; }
         public LayoutState StateView { get; set; }
-        public string TimeLabel { get; set; }
-        public string ImageLabel { get; set; }
         public CashFlow CashFlowRegister { get; set; } = new CashFlow();
 
         public async Task ReceiveNavigationParameters(IReadOnlyDictionary<string, object> parameters)
         {
+            var categories = await CategoryService.GetCategories();
+            var paymentMethods = await PaymentMethodService.GetPaymentMethods();
             await Task.Run(() =>
             {
                 StateView = LayoutState.Loading;
 
-                if (parameters != null && parameters.TryGetValue(ParametersName.CashFlow, out var cashFlow))
+
+                if (parameters != null && parameters.TryGetValue(ParametersName.CashFlowDetail, out var cashFlow))
                 {
                     CashFlowRegister = (CashFlow)cashFlow;
 
-                    HasOtherCategoryDescription = CashFlowRegister.OtherCategoryDescription != null;
-                    HasOtherPaymentDescription = CashFlowRegister.OtherPaymentDescription != null;
                     TimeLabel = CashFlowRegister.Time.ToString(@"hh\:mm");
                     HasComment = CashFlowRegister.Comment != null;
                     HasImage = CashFlowRegister.ImageString64 != null;
                     ImageLabel = CashFlowRegister.ImageName;
+                    CategoryDescription = categories.Where(r => r.CategoryId == CashFlowRegister.CategoryId).FirstOrDefault().Name;
+                    PaymentMethodDescription = paymentMethods.Where(r => r.PaymentMethodId == CashFlowRegister.PaymentMethodId).FirstOrDefault().Name; ;
                 }
 
                 StateView = LayoutState.Success;
@@ -79,7 +87,7 @@ namespace DespPlus.ViewModels
             var isDelete = await Application.Current.MainPage.DisplayAlert("Atenção","Deseja realmente excluir este registro ?","sim","não");
             
             if (isDelete)
-                if (await Service.DeleteRegister(CashFlowRegister.Id))
+                if (await CashFlowService.DeleteRegister(CashFlowRegister.Id))
                 {
                     var parameters = ConstructorParameters.Init(ParametersName.ReloadPage, true).GenerateParameters();
                     await NavigatorService.BackToAsync(parameters);

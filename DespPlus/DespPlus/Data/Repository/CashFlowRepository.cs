@@ -10,6 +10,10 @@ namespace DespPlus.Data.Repository
     public class CashFlowRepository : IRegisterRepository<CashFlow>
     {
         private DespPlusContext _context;
+        public CashFlowRepository()
+        {
+            _context = DependencyManager.Instance.GetInstance<DespPlusContext>();
+        }
         public async Task<bool> Delete(string id)
         {
             _context = new DespPlusContext();
@@ -17,7 +21,7 @@ namespace DespPlus.Data.Repository
             {
                 var register = await _context.CashFlows.FindAsync(id);
                 if (register != null)
-                { 
+                {
                     _context.CashFlows.Remove(register);
                     var row = _context.SaveChanges();
                     return row > 0;
@@ -75,10 +79,8 @@ namespace DespPlus.Data.Repository
                     register.Time = cashFlow.Time;
                     register.Value = cashFlow.Value;
                     register.ValueLabel = cashFlow.ValueLabel;
-                    register.CategoryDescription = cashFlow.CategoryDescription;
-                    register.OtherCategoryDescription = cashFlow.OtherCategoryDescription;
-                    register.PaymentMethodDescription = cashFlow.PaymentMethodDescription;
-                    register.OtherCategoryDescription = cashFlow.OtherPaymentDescription;
+                    register.Category = cashFlow.Category;
+                    register.PaymentMethod = cashFlow.PaymentMethod;
                     register.ImageName = cashFlow.ImageName;
                     register.ImageString64 = cashFlow.ImageString64;
                     register.Comment = cashFlow.Comment;

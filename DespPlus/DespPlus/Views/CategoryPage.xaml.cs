@@ -32,7 +32,7 @@ namespace DespPlus.Views
                 var button = sender as Button;
                 var category = (Category)button.CommandParameter;
                 var vm = BindingContext as CategoryPageVM;
-                await vm.DeleteCategory(category.Id);
+                await vm.DeleteCategory(category.CategoryId);
             }
         }
     }

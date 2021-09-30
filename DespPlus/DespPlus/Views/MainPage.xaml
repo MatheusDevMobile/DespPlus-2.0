@@ -62,7 +62,7 @@
                                     <Label Grid.Row="0" Text="{Binding Date, StringFormat='{0:dd/MM/yyyy}'}" FontSize="10" TextColor="#232C2D" FontFamily="{StaticResource SFProTextRegular}" HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" Margin="10,10,10,0"/>
                                     <StackLayout Grid.Row="1" Orientation="Horizontal" Margin="10,0,10,10">
                                         <ImageButton Source="{Binding Icon}" BackgroundColor="#106584f0" CornerRadius="60" WidthRequest="35" Padding="4" Margin="0,0,5,0" />
-                                        <Label Text="{Binding CategoryDescription}" FontSize="15" TextColor="#232C2D" FontFamily="{StaticResource SFProTextBold}" HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand"/>
+                                        <Label Text="{Binding Category.Name}" FontSize="15" TextColor="#232C2D" FontFamily="{StaticResource SFProTextBold}" HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand"/>
                                         <Label Text="{Binding ValueLabel}" FontSize="20" TextColor="{Binding LabelColor}" FontFamily="{StaticResource SFProTextBold}" HorizontalOptions="EndAndExpand" VerticalOptions="CenterAndExpand"/>
                                     </StackLayout>
                                     <Grid.GestureRecognizers>

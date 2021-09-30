@@ -27,10 +27,10 @@
                         <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
                             <RadioButton IsChecked="{Binding IsIncome}" VerticalOptions="Center"/>
                             <Label Text="Rendimento" VerticalOptions="Center" />
-                            <RadioButton IsChecked="{Binding IsExpense}" VerticalOptions="Center" Margin="30,0,0,0"/>
+                            <RadioButton IsChecked="{Binding IsIncome, Converter={StaticResource InverterBooleanConverter}}" VerticalOptions="Center" Margin="30,0,0,0"/>
                             <Label Text="Despesa" VerticalOptions="Center" />
                         </StackLayout>
-
+                        <Label Text="{Binding ErrorMessage}" IsVisible="{Binding HasErrorField}" TextColor="{StaticResource AlertColor}"/>
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
@@ -60,39 +60,16 @@
 
                         <Grid Style="{StaticResource GridPicker}">
                             <Label Text="Categoria" TextColor="Black" />
-                            <Picker x:Name="category" Title="Selecione..." ItemsSource="{Binding CategoryList, Mode=TwoWay, UpdateSourceEventName=PropertyChanged}" ItemDisplayBinding="{Binding Name}" SelectedItem="{Binding CategoryItem, Mode=TwoWay, UpdateSourceEventName=PropertyChanged}" Style="{StaticResource PickerGridPicker}"/>
+                            <Picker x:Name="category" Title="Selecione..." ItemsSource="{Binding CategoryList, Mode=TwoWay, UpdateSourceEventName=PropertyChanged}" 
+                                    ItemDisplayBinding="{Binding Name}" SelectedItem="{Binding CategoryItem, Mode=TwoWay, UpdateSourceEventName=PropertyChanged}" Style="{StaticResource PickerGridPicker}"/>
                             <Label Style="{StaticResource LabelIconeGridPicker}" InputTransparent="True" Margin="0,0,8,5"/>
                         </Grid>
-
-                        <Entry x:Name="otherCategory" Text="{Binding OtherCategoryDescription}" FontSize="16" IsVisible="False"
-                            Placeholder="descreva a categoria..." MaxLength="30">
-                            <Entry.Triggers>
-                                <DataTrigger
-                                Binding="{Binding Source={x:Reference category}, Path=SelectedIndex}"
-                                TargetType="Entry"
-                                Value="7">
-                                    <Setter Property="IsVisible" Value="True" />
-                                </DataTrigger>
-                            </Entry.Triggers>
-                        </Entry>
 
                         <Grid Style="{StaticResource GridPicker}">
                             <Label Text="Forma de Pagamento" TextColor="Black" />
                             <Picker x:Name="paymentType" Title="Selecione..." ItemsSource="{Binding PaymentMethodList, Mode=TwoWay, UpdateSourceEventName=PropertyChanged}" ItemDisplayBinding="{Binding Name}" SelectedItem="{Binding PaymentMethodItem, Mode=TwoWay, UpdateSourceEventName=PropertyChanged}" Style="{StaticResource PickerGridPicker}"/>
                             <Label Style="{StaticResource LabelIconeGridPicker}" InputTransparent="True" Margin="0,0,8,5"/>
                         </Grid>
-
-                        <Entry x:Name="otherPayment" Text="{Binding OtherPaymentMethodDescription}" FontSize="16" IsVisible="False"
-                            Placeholder="descreva a forma de pagamento..." MaxLength="30">
-                            <Entry.Triggers>
-                                <DataTrigger
-                                Binding="{Binding Source={x:Reference paymentType}, Path=SelectedIndex}"
-                                TargetType="Entry"
-                                Value="10">
-                                    <Setter Property="IsVisible" Value="True" />
-                                </DataTrigger>
-                            </Entry.Triggers>
-                        </Entry>
 
                         <Label Text="Observações" TextColor="Black" />
                         <Editor Placeholder="máximo 30 caracteres..." Text="{Binding CommentDescription}" AutoSize="TextChanges" MaxLength="30"/>

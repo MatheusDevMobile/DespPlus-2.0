@@ -10,6 +10,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
+using System.Collections.ObjectModel;
 
 namespace DespPlus.ViewModels
 {
@@ -18,12 +19,14 @@ namespace DespPlus.ViewModels
         public event PropertyChangedEventHandler PropertyChanged;
         protected INavigatorService NavigatorService { get; }
         protected ICashFlowService CashFlowService { get; }
+        protected ICategoryService CategoryService { get; }
+        protected IPaymentMethodService PaymentMethodService { get; }
         public ICommand OpenInfoRegisterCommand { get; }
         public ICommand GoToSettingsCommand { get; }
         public ICommand GoToRegisterCommand { get; }
         public ICommand RefreshCommand { get; }
         public ICommand DeleteCommand { get; }
-        public MainPageVM(ICashFlowService cashFlowServices, INavigatorService navigatorService)
+        public MainPageVM(ICashFlowService cashFlowServices, INavigatorService navigatorService, ICategoryService categoryService, IPaymentMethodService paymentMethodService)
         {
             CashFlowService = cashFlowServices;
             NavigatorService = navigatorService;
@@ -32,16 +35,17 @@ namespace DespPlus.ViewModels
             GoToSettingsCommand = new Command(async () => await NavigatorService.NavigateToAsync("SettingsPage"));
             GoToRegisterCommand = new Command(async () => await NavigatorService.NavigateToAsync("RegisterPage"));
             OpenInfoRegisterCommand = new Command(async (param) => await OpenRegisterInfo((CashFlow)param));
+            CategoryService = categoryService;
+            PaymentMethodService = paymentMethodService;
         }
-
+        public bool IsRefreshing { get; set; }
         public double TotalIncomesValue { get; set; }
         public double TotalExpensesValue { get; set; }
-        public bool IsRefreshing { get; set; }
         public double TotalPercentage { get; set; }
         public double AnimationProgressPercentage { get; set; }
         public string Title => $"Olá {DeviceInfo.Name}!";
         public Animation Animation { get; set; }
-        public List<CashFlow> CashFlows { get; set; } = new List<CashFlow>();
+        public ObservableCollection<CashFlow> CashFlows { get; set; } = new ObservableCollection<CashFlow>();
         public async Task ReceiveNavigationParameters(IReadOnlyDictionary<string, object> parameters)
         {
             if (parameters != null && parameters.TryGetValue(ParametersName.ReloadPage, out var reloadPage))
@@ -105,7 +109,7 @@ namespace DespPlus.ViewModels
         {
             CashFlows.Clear();
             var cashFlowList = await CashFlowService.GetAllCashFlow();
-            CashFlows = new List<CashFlow>(cashFlowList.OrderByDescending(c => c.Date).OrderByDescending(c => c.Time));
+            CashFlows = new ObservableCollection<CashFlow>(cashFlowList.OrderByDescending(c => c.Date).OrderByDescending(c => c.Time));
 
             GetTotalPercentage();
             ShowPercentageValuesAnimation();
@@ -115,7 +119,7 @@ namespace DespPlus.ViewModels
 
         internal async Task OpenRegisterInfo(CashFlow cashFlow)
         {
-            var parametros = ConstructorParameters.Init(ParametersName.CashFlow, cashFlow).GenerateParameters();
+            var parametros = ConstructorParameters.Init(ParametersName.CashFlowDetail, cashFlow).GenerateParameters();
             await NavigatorService.NavigateToAsync("DetailRegister", parametros);
         }
 

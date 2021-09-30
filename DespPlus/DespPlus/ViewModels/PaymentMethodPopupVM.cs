@@ -58,7 +58,7 @@ namespace DespPlus.ViewModels
                 ErrorMessage = "";
 
                 if (!IsEditing)
-                    PaymentMethod.Id = Guid.NewGuid().ToString();
+                    PaymentMethod.PaymentMethodId = Guid.NewGuid().ToString();
 
                 PaymentMethod.Name = this.Name;
 
@@ -78,7 +78,7 @@ namespace DespPlus.ViewModels
                 if (!IsEditing)
                     isSuccess = await PaymentMethodService.CreatePaymentMethod(PaymentMethod);
                 else
-                    isSuccess = await PaymentMethodService.UpdatePaymentMethod(PaymentMethod.Id, PaymentMethod);
+                    isSuccess = await PaymentMethodService.UpdatePaymentMethod(PaymentMethod.PaymentMethodId, PaymentMethod);
 
                 if (isSuccess)
                 {

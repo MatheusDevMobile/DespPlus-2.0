@@ -1,4 +1,5 @@
-﻿using DespPlus.Data.Repository;
+﻿using DespPlus.Data;
+using DespPlus.Data.Repository;
 using DespPlus.Data.Repository.Interface;
 using DespPlus.Interface;
 using DespPlus.Models;
@@ -18,6 +19,7 @@ namespace DespPlus.ApplicationApp
         public Factory()
         {
             Container = new Container();
+            Container.Register<DespPlusContext>(Lifestyle.Singleton);
 
             ConfigureViewModels();
             ConfigureServices();
@@ -60,7 +62,7 @@ namespace DespPlus.ApplicationApp
         private void ConfigureRepositories()
         {
             Container.Register<IRegisterRepository<CashFlow>, CashFlowRepository>();
-            Container.Register<IRegisterRepository<Category>, CategoryRepository>();
+            Container.Register<IRegisterRepository<Category>, CategoryRepository>(Lifestyle.Singleton);
             Container.Register<IRegisterRepository<PaymentMethod>, PaymentMethodRepository>();
         }
 

@@ -15,77 +15,77 @@ namespace DespPlus.Data.Mock
             {
                  new Category
                  {
-                    Id = "1",
+                    CategoryId = "1",
                     Name = "Prestação do imóvel/Aluguel",
                     IsIncome = false,
                     IsExpense = true
                  },
                  new Category
                  {
-                    Id = "2",
+                    CategoryId = "2",
                     Name = "Alimentação",
                     IsIncome = false,
                     IsExpense = true
                  },
                  new Category
                  {
-                    Id = "3",
+                    CategoryId = "3",
                     Name = "Combustível",
                     IsIncome = false,
                     IsExpense = true
                  },
                  new Category
                  {
-                    Id = "4",
+                    CategoryId = "4",
                     Name = "Conta de Água",
                     IsIncome = false,
                     IsExpense = true
                  },
                  new Category
                  {
-                    Id = "5",
+                    CategoryId = "5",
                     Name = "Conta de Luz",
                     IsIncome = false,
                     IsExpense = true
                  },
                  new Category
                  {
-                    Id = "6",
+                    CategoryId = "6",
                     Name = "Combo telefone/Internet/TV",
                     IsIncome = false,
                     IsExpense = true
                  },
                  new Category
                  {
-                    Id = "7",
+                    CategoryId = "7",
                     Name = "Fatura Cartão",
                     IsIncome = false,
                     IsExpense = true
                  },
                  new Category
                  {
-                    Id = "8",
+                    CategoryId = "8",
                     Name = "Salário",
                     IsIncome = true,
                     IsExpense = false
                  },
                  new Category
                  {
-                    Id = "9",
+                    CategoryId = "9",
                     Name = "Aluguel",
                     IsIncome = true,
                     IsExpense = false
                  },
                  new Category
                  {
-                    Id = "10",
+                    CategoryId = "10",
                     Name = "Pensão",
                     IsIncome = true,
                     IsExpense = false
                  },
                  new Category
                  {
-                    Id = "11",
+                    CategoryId = "11",
                     Name = "Outros",
                     IsIncome = true,
                     IsExpense = true

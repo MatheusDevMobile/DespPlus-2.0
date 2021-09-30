@@ -61,7 +61,7 @@ namespace DespPlus.ViewModels
                 ErrorMessage = "";
 
                 if (!IsEditing)
-                    Category.Id = Guid.NewGuid().ToString();
+                    Category.CategoryId = Guid.NewGuid().ToString();
 
                 Category.IsExpense = this.IsExpense;
                 Category.IsIncome = this.IsIncome;
@@ -83,7 +83,7 @@ namespace DespPlus.ViewModels
                 if(!IsEditing)
                     isSuccess = await CategoryService.CreateCategory(Category);
                 else
-                    isSuccess = await CategoryService.UpdateCategory(Category.Id, Category);
+                    isSuccess = await CategoryService.UpdateCategory(Category.CategoryId, Category);
 
                 if (isSuccess)
                 {

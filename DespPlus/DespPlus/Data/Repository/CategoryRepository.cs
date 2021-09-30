@@ -10,9 +10,12 @@ namespace DespPlus.Data.Repository
     internal class CategoryRepository : IRegisterRepository<Category>
     {
         private DespPlusContext _context;
+        public CategoryRepository()
+        {
+            _context = DependencyManager.Instance.GetInstance<DespPlusContext>();
+        }
         public async Task<bool> Delete(string id)
         {
-            _context = new DespPlusContext();
             try
             {
                 var register = await _context.Categories.FindAsync(id);
@@ -35,7 +38,6 @@ namespace DespPlus.Data.Repository
 
         public async Task<List<Category>> GetAll()
         {
-            _context = new DespPlusContext();
             try
             {
                 var list = await _context.Categories.ToListAsync();
@@ -49,7 +51,6 @@ namespace DespPlus.Data.Repository
 
         public async Task<bool> Save(Category category)
         {
-            _context = new DespPlusContext();
             try
             {
                 _context.Categories.Add(category);
@@ -65,15 +66,14 @@ namespace DespPlus.Data.Repository
 
         public async Task<bool> Update(string id, Category category)
         {
-            _context = new DespPlusContext();
             try
             {
                 var register = await _context.Categories.FindAsync(id);
                 if (register != null)
                 {
                     register.Name = category.Name;
-                    register.IsIncome = category.IsIncome;
-                    register.IsExpense = category.IsExpense;
+                    //register.IsIncome = category.IsIncome;
+                    //register.IsExpense = category.IsExpense;
 
                     _context.Categories.Update(register);
                     var row = _context.SaveChanges();

@@ -32,7 +32,7 @@ namespace DespPlus.Views
                 var vm = BindingContext as PaymentMethodPageVM;
                 var button = sender as Button;
                 var paymentMethod = (PaymentMethod)button.CommandParameter;
-                await vm.DeletePaymentMethod(paymentMethod.Id);
+                await vm.DeletePaymentMethod(paymentMethod.PaymentMethodId);
             }
         }
     }

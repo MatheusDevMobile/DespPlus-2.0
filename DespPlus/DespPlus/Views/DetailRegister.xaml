@@ -85,24 +85,14 @@
                         </StackLayout>
                         <Label Text="{Binding CashFlowRegister.ValueLabel}"/>
                         <Label Text="Categoria" FontFamily="{StaticResource SFProTextBold}"/>
-                        <Label Text="{Binding CashFlowRegister.CategoryDescription}"/>
-
-                        <StackLayout IsVisible="{Binding HasOtherCategoryDescription}">
-                            <Label Text="Descrição da categoria" FontFamily="{StaticResource SFProTextBold}"/>
-                            <Label Text="{Binding CashFlowRegister.OtherCategoryDescription}"/>
-                        </StackLayout>
+                        <Label Text="{Binding CategoryDescription}"/>
 
                         <Label Text="Data" FontFamily="{StaticResource SFProTextBold}"/>
                         <Label Text="{Binding CashFlowRegister.Date, StringFormat='{0:dd/MM/yyyy}'}"/>
                         <Label Text="Hora" FontFamily="{StaticResource SFProTextBold}"/>
                         <Label Text="{Binding TimeLabel}"/>
                         <Label Text="Forma de Pagamento" FontFamily="{StaticResource SFProTextBold}"/>
-                        <Label Text="{Binding CashFlowRegister.PaymentMethodDescription}"/>
-
-                        <StackLayout IsVisible="{Binding HasOtherPaymentDescription}">
-                            <Label Text="Descrição do pagamento" FontFamily="{StaticResource SFProTextBold}"/>
-                            <Label Text="{Binding CashFlowRegister.OtherPaymentDescription}"/>
-                        </StackLayout>
+                        <Label Text="{Binding PaymentMethodDescription}"/>
 
                         <StackLayout IsVisible="{Binding HasComment}">
                             <Label Text="Complemento" FontFamily="{StaticResource SFProTextBold}"/>

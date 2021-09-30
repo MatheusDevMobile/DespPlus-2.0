@@ -9,10 +9,13 @@ namespace DespPlus.Data.Repository
 {
     internal class PaymentMethodRepository : IRegisterRepository<PaymentMethod>
     {
-        private DespPlusContext _context;
+        private readonly DespPlusContext _context;
+        public PaymentMethodRepository()
+        {
+            _context = DependencyManager.Instance.GetInstance<DespPlusContext>();
+        }
         public async Task<bool> Delete(string id)
         {
-            _context = new DespPlusContext();
             try
             {
                 var register = await _context.PaymentMethods.FindAsync(id);
@@ -35,7 +38,6 @@ namespace DespPlus.Data.Repository
 
         public async Task<List<PaymentMethod>> GetAll()
         {
-            _context = new DespPlusContext();
             try
             {
                 var list = await _context.PaymentMethods.ToListAsync();
@@ -49,7 +51,6 @@ namespace DespPlus.Data.Repository
 
         public async Task<bool> Save(PaymentMethod paymentMethod)
         {
-            _context = new DespPlusContext();
             try
             {
                 _context.PaymentMethods.Add(paymentMethod);
@@ -65,7 +66,6 @@ namespace DespPlus.Data.Repository
 
         public async Task<bool> Update(string id, PaymentMethod paymentMethod)
         {
-            _context = new DespPlusContext();
             try
             {
                 var register = await _context.PaymentMethods.FindAsync(id);

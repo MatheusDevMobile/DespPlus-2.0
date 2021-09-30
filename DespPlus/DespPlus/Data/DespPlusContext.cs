@@ -23,7 +23,7 @@ namespace DespPlus.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<CashFlow>().Ignore(c => c.LabelColor);
-            modelBuilder.Entity<CashFlow>().Ignore(c => c.Icon);
+            //modelBuilder.Entity<CashFlow>().Ignore(c => c.Icon);
         }
     }
 }
