@@ -55,6 +55,7 @@ namespace DespPlus.ApplicationApp
             Container.Register<IPickPhotoService, PickPhotoService>();
             Container.Register<ICategoryService, CategoryService>();
             Container.Register<IPaymentMethodService, PaymentMethodService>();
+            Container.Register<ISeedingService, SeedingService>();
 
             Container.RegisterInstance<IShowAlertService>(new ShowAlertService());
         }
