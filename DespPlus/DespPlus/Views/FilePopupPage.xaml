@@ -17,11 +17,11 @@
             HasBackgroundAnimation="True"/>
     </pages:PopupPage.Animation>
     <!--You can use any elements here which are extended from Xamarin.Forms.View-->
-    <StackLayout 
-        VerticalOptions="FillAndExpand" 
-        HorizontalOptions="FillAndExpand" 
-        Padding="20, 20, 20, 20">
-        <ActivityIndicator Color="#FFFFFF" IsRunning="{Binding InProcess}" IsVisible="{Binding InProcess}"/>
-        <Image Source="{Binding Image}"/>
+    <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" BackgroundColor="{StaticResource ColorWhite}">
+        <ActivityIndicator Color="{StaticResource PrimaryColor}" IsRunning="{Binding InProcess}" IsVisible="{Binding InProcess}" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
+        <StackLayout IsVisible="{Binding InProcess, Converter={StaticResource InverterBooleanConverter}}" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" Margin="20"  WidthRequest="300" HeightRequest="500">
+            <Image Source="{Binding Image}" Aspect="AspectFill" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"/>
+        </StackLayout>
+        <Button IsVisible="{Binding InProcess, Converter={StaticResource InverterBooleanConverter}}" Command="{Binding ClosePopupCommand}" Style="{StaticResource ButtonCancelPopup}"/>
     </StackLayout>
 </pages:PopupPage>
