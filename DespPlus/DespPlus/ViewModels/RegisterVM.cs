@@ -58,15 +58,17 @@ namespace DespPlus.ViewModels
 
         public bool IsEdit { get; set; }
         private bool _isIncome;
-        public bool IsIncome {
-            get {  return _isIncome; } 
-            set {
+        public bool IsIncome
+        {
+            get { return _isIncome; }
+            set
+            {
                 if (value != _isIncome)
                 {
                     _isIncome = value;
                     ChangePickerEvent?.Invoke(this, EventArgs.Empty);
                 }
-            } 
+            }
         }
         public bool HasImage { get; set; }
         public bool AddImageSwitch { get; set; }
@@ -187,13 +189,14 @@ namespace DespPlus.ViewModels
             var prepareToStringValue = toStringValue.Insert(toStringValue.Length - 2, ",");
 
             string idRegister;
-            
+
             if (IsEdit)
                 idRegister = CashFlowRegister.Id;
             else
                 idRegister = Guid.NewGuid().ToString();
 
-            var cashFlowRegister = new CashFlow {
+            var cashFlowRegister = new CashFlow
+            {
                 Id = idRegister,
                 Date = DateLabel,
                 Time = TimeLabel,

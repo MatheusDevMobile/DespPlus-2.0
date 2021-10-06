@@ -75,6 +75,9 @@
     <BundleResource Include="Resources\FontAwesome5Solid.otf" />
     <BundleResource Include="Resources\Michroma-Regular.ttf" />
     <BundleResource Include="Resources\success.json" />
+    <BundleResource Include="Resources\onb1.json" />
+    <BundleResource Include="Resources\hello.json" />
+    <BundleResource Include="Resources\veryHappy.json" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />

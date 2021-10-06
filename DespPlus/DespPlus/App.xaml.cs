@@ -1,4 +1,5 @@
 ﻿using DespPlus.Services.Interface;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace DespPlus
@@ -19,6 +20,7 @@ namespace DespPlus
         protected override void OnStart()
         {
             Service.Seed();
+            VersionTracking.Track();
         }
 
         protected override void OnSleep()

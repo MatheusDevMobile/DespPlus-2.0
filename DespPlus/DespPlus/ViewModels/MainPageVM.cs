@@ -56,7 +56,6 @@ namespace DespPlus.ViewModels
                 }
             }
         }
-       
         private void GetTotalPercentage()
         {
             var percentage = 0d;
@@ -120,9 +119,8 @@ namespace DespPlus.ViewModels
         internal async Task OpenRegisterInfo(CashFlow cashFlow)
         {
             var parametros = ConstructorParameters.Init(ParametersName.CashFlowDetail, cashFlow).GenerateParameters();
-            await NavigatorService.NavigateToAsync("DetailRegister", parametros);
+            await NavigatorService.NavigateToAsync("DetailRegisterPage", parametros);
         }
-
         public async Task<bool> DeleteRegister(string id)
         {
             if (await CashFlowService.DeleteRegister(id))
@@ -131,6 +129,11 @@ namespace DespPlus.ViewModels
                 return true;
             }
             return false;
+        }
+
+        public async Task OpenOnboardingScreen()
+        {
+            await NavigatorService.NavigateToAsync("OnboardingPage");
         }
     }
 }

@@ -34,16 +34,25 @@
     <Compile Update="Views\CategoryPopup.xaml.cs">
       <DependentUpon>CategoryPopup.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\DetailRegisterPage.xaml.cs">
+      <DependentUpon>DetailRegisterPage.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\PaymentMethodPopup.xaml.cs">
       <DependentUpon>PaymentMethodPopup.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\FilePopupPage.xaml.cs">
       <DependentUpon>FilePopupPage.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\RegisterPage.xaml.cs">
+      <DependentUpon>RegisterPage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Update="Views\CategoryPopup.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\OnboardingPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\PaymentMethodPopup.xaml">
@@ -52,7 +61,7 @@
     <EmbeddedResource Update="Views\CategoryPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\DetailRegister.xaml">
+    <EmbeddedResource Update="Views\DetailRegisterPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\FilePopupPage.xaml">
@@ -61,7 +70,7 @@
     <EmbeddedResource Update="Views\PaymentMethodPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Register.xaml">
+    <EmbeddedResource Update="Views\RegisterPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\SettingsPage.xaml">

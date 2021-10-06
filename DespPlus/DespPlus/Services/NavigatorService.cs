@@ -34,8 +34,8 @@ namespace DespPlus.Services
                         case nameof(MainPage):
                             page = new MainPage();
                             break;
-                        case nameof(DetailRegister):
-                            page = new DetailRegister();
+                        case nameof(DetailRegisterPage):
+                            page = new DetailRegisterPage();
                             break;
                     }
                     Application.Current.MainPage = navigationBar ? new NavigationPage(page) : page;
@@ -61,8 +61,8 @@ namespace DespPlus.Services
                     case nameof(RegisterPage):
                         page = new RegisterPage();
                         break;
-                    case nameof(DetailRegister):
-                        page = new DetailRegister();
+                    case nameof(DetailRegisterPage):
+                        page = new DetailRegisterPage();
                         break;
                     case nameof(FilePopupPage):
                         page = new FilePopupPage();
@@ -82,6 +82,10 @@ namespace DespPlus.Services
                     case nameof(PaymentMethodPopup):
                         page = new PaymentMethodPopup();
                         break;
+                    case nameof(OnboardingPage):
+                        page = new OnboardingPage();
+                        break;
+
 
                 }
                 if (page is PopupPage popup)
@@ -90,11 +94,6 @@ namespace DespPlus.Services
                     if ((IViewModel)page?.BindingContext != null)
                         await ((IViewModel)page.BindingContext).ReceiveNavigationParameters(parameters);
                     return;
-                }
-                if (url.Equals("DetailRegister"))
-                {
-                    await CurrentPage.Navigation.PushModalAsync(new NavigationPage(page), true);
-                    await ((IViewModel)page.BindingContext)?.ReceiveNavigationParameters(parameters);
                 }
                 else
                 {

@@ -1,7 +1,9 @@
 ﻿using DespPlus.Models;
+using DespPlus.Services.Interface;
 using DespPlus.ViewModels;
 using System;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -15,6 +17,12 @@ namespace DespPlus.Views
             InitializeComponent();
 
             BindingContext = DependencyManager.Instance.GetInstance<MainPageVM>();
+
+            if (VersionTracking.IsFirstLaunchEver)
+            {
+                var vm = BindingContext as MainPageVM;
+                Task.Run(async () => { await vm.OpenOnboardingScreen(); });
+            }
         }
 
         protected override void OnAppearing()

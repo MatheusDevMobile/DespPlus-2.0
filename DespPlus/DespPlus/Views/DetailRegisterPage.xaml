@@ -5,7 +5,7 @@
              xmlns:animations="clr-namespace:Rg.Plugins.Popup.Animations;assembly=Rg.Plugins.Popup"
              xmlns:toolkit="http://xamarin.com/schemas/2020/toolkit"
              xmlns:shimmer="clr-namespace:XFShimmerLayout.Controls;assembly=XFShimmerLayout"
-             x:Class="DespPlus.Views.DetailRegister">
+             x:Class="DespPlus.Views.DetailRegisterPage">
 
 
 <pages:PopupPage.Animation>

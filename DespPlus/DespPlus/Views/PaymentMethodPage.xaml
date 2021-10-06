@@ -29,7 +29,7 @@
                             </SwipeItemView>
                         </SwipeView.RightItems>
                         <StackLayout Orientation="Horizontal">
-                            <BoxView BackgroundColor="{StaticResource AlertColor}" WidthRequest="8"/>
+                            <BoxView BackgroundColor="{StaticResource YellowColorDefault}" WidthRequest="8"/>
                             <Label Text="{Binding Name}" TextColor="Black" VerticalOptions="CenterAndExpand" FontSize="16" Margin="10,0,0,0"/>
                             <Label Text="&#xf0a5;" FontFamily="{StaticResource FontAwesomeRegular}" FontSize="20" HorizontalOptions="EndAndExpand" VerticalOptions="CenterAndExpand" Margin="0,0,10,0"/>
                         </StackLayout>

@@ -35,6 +35,17 @@
                     <TapGestureRecognizer Command="{Binding GoToPaymentMethodPage}"/>
                 </Frame.GestureRecognizers>
             </Frame>
+            <BoxView BackgroundColor="LightGray" HeightRequest="0.4" />
+            <Label Text="Ajuda" Margin="10,20,10,10"/>
+            <Frame Padding="15" HasShadow="False">
+                <StackLayout Orientation="Horizontal">
+                    <Label Text="Página de boas-vindas" Style="{StaticResource labelOptionSetting}"/>
+                    <Image Source="rightArrow" HorizontalOptions="EndAndExpand"/>
+                </StackLayout>
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding GoToOnboardingPage}"/>
+                </Frame.GestureRecognizers>
+            </Frame>
             <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" VerticalOptions="EndAndExpand" Margin="20">
                 <Label Text="{Binding AppVersion}" HorizontalOptions="EndAndExpand" FontFamily="{StaticResource SFProTextRegular}" VerticalOptions="Center"/>
             </StackLayout>

@@ -5,9 +5,9 @@ using Xamarin.Forms.Xaml;
 namespace DespPlus.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class DetailRegister : PopupPage
+    public partial class DetailRegisterPage : PopupPage
     {
-        public DetailRegister()
+        public DetailRegisterPage()
         {
             InitializeComponent();
 

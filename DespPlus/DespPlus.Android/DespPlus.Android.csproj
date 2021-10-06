@@ -102,6 +102,9 @@
     <AndroidAsset Include="Assets\FontAwesome5Regular.otf" />
     <AndroidAsset Include="Assets\Fonts\Michroma-Regular.ttf" />
     <AndroidAsset Include="Assets\success.json" />
+    <AndroidAsset Include="Assets\onb1.json" />
+    <AndroidAsset Include="Assets\hello.json" />
+    <AndroidAsset Include="Assets\veryHappy.json" />
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
     <None Include="Properties\AndroidManifest.xml" />

@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:forms="clr-namespace:Lottie.Forms;assembly=Lottie.Forms" 
+             xmlns:ob1="clr-namespace:DespPlus.Models"
+             x:Class="DespPlus.Views.OnboardingPage" NavigationPage.HasNavigationBar="False">
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <CarouselView x:Name="onBoardingCarousel" IndicatorView="IndicatorView"
+                          Grid.Row="0" Grid.ColumnSpan="3" Grid.RowSpan="3"
+                          ItemsSource="{Binding Items}"
+                          Position="{Binding Position}">
+                <CarouselView.ItemTemplate>
+                    <DataTemplate x:DataType="ob1:Onboarding">
+                        <ContentView>
+                            <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" Margin="0,10,0,0">
+                                <Label Text="{Binding Title}" HorizontalOptions="CenterAndExpand"
+                                       FontAttributes="Bold"
+                                       FontSize="Title" />
+
+                                <Label Text="{Binding Content}" HorizontalOptions="CenterAndExpand" HorizontalTextAlignment="Center"
+                                       FontSize="Body"/>
+                                <forms:AnimationView Grid.Row="2" Animation="{Binding Animation}" AutoPlay="True" RepeatMode="Infinite" HeightRequest="400" WidthRequest="400"/>
+
+                            </StackLayout>
+                        </ContentView>
+                    </DataTemplate>
+                </CarouselView.ItemTemplate>
+            </CarouselView>
+            <IndicatorView x:Name="IndicatorView"
+                       Grid.Row="3"
+                       Grid.Column="1"
+                       IndicatorSize="7"
+                       IndicatorsShape="Circle"
+                       IndicatorColor="{StaticResource IndicatorColor}"
+                       SelectedIndicatorColor="{StaticResource PrimaryColor}"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center">
+            </IndicatorView>
+
+
+
+            <Button Grid.Row="3" 
+                    Grid.Column="0"
+                    FontSize="12"
+                    FontAttributes="Bold"
+                    BackgroundColor="Transparent"
+                    TextColor="{StaticResource PrimaryColor}"
+                    Text="{Binding SkipButtonText}"
+                    Command="{Binding SkipCommand}"/>
+            <Button Grid.Row="3" 
+                    Grid.Column="2"
+                    FontSize="12"
+                    CornerRadius="50"
+                    Margin="0,61,25,61"
+                    FontAttributes="Bold"
+                    BackgroundColor="{StaticResource PrimaryColor}"
+                    TextColor="{StaticResource ColorWhite}"
+                    Text="{Binding NextButtonText}"
+                    Command="{Binding NextCommand}"/>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

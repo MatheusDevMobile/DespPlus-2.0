@@ -13,12 +13,14 @@ namespace DespPlus.ViewModels
         protected INavigatorService NavigatorService { get; }
         public ICommand GoToCategoryPage { get; }
         public ICommand GoToPaymentMethodPage { get; }
+        public ICommand GoToOnboardingPage { get; }
         public SettingsPageVM(INavigatorService navigatorService)
         {
             NavigatorService = navigatorService;
 
             GoToCategoryPage = new Command(async () => await NavigatorService.NavigateToAsync("CategoryPage"));
             GoToPaymentMethodPage = new Command(async () => await NavigatorService.NavigateToAsync("PaymentMethodPage"));
+            GoToOnboardingPage = new Command(async () => await NavigatorService.NavigateToAsync("OnboardingPage"));
         }      
         public string Title => "Configurações";
         public string AppVersion { get; set; } = $"versão {VersionTracking.CurrentVersion}.{VersionTracking.CurrentBuild}";

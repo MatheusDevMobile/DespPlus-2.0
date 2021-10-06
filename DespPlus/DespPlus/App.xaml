@@ -16,7 +16,7 @@
         <Color x:Key="ColorBlueLink">#6584f0</Color>
         <Color x:Key="ColorLighGray">#E1E1E1</Color>
         <Color x:Key="ColorWhite">#FFFFFF</Color>
-        
+        <Color x:Key="IndicatorColor">#5065BCBF</Color>
         <!--FONTS-->
         <OnPlatform x:TypeArguments="x:String" x:Key="SFProTextRegular">
             <On Platform="Android" Value="Fonts/SFProText-Regular.ttf#SFProText-Regular" />
