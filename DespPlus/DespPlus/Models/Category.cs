@@ -1,4 +1,5 @@
-﻿using Xamarin.Forms;
+﻿using Newtonsoft.Json;
+using Xamarin.Forms;
 
 namespace DespPlus.Models
 {
@@ -8,6 +9,8 @@ namespace DespPlus.Models
         public string Name { get; set; }
         public bool IsIncome { get; set; }
         public bool IsExpense { get; set; }
+
+        [JsonIgnore]
         public Color LabelColor => GetColorLabel();
         private Color GetColorLabel()
         {

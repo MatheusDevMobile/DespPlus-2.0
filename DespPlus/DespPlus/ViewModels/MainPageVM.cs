@@ -55,6 +55,14 @@ namespace DespPlus.ViewModels
                     await ExecuteRefreshCommand();
                 }
             }
+
+            if (parameters != null && parameters.TryGetValue(ParametersName.Success, out var isSuccess))
+            {
+                if ((bool)isSuccess)
+                {
+                    await ExecuteRefreshCommand();
+                }
+            }
         }
         private void GetTotalPercentage()
         {

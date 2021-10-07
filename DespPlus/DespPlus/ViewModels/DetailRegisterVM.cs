@@ -87,11 +87,15 @@ namespace DespPlus.ViewModels
             var isDelete = await Application.Current.MainPage.DisplayAlert("Atenção","Deseja realmente excluir este registro ?","sim","não");
             
             if (isDelete)
-                if (await CashFlowService.DeleteRegister(CashFlowRegister.Id))
-                {
-                    var parameters = ConstructorParameters.Init(ParametersName.ReloadPage, true).GenerateParameters();
-                    await NavigatorService.BackToAsync(parameters);
-                }
+            {
+                var isDeleted = await CashFlowService.DeleteRegister(CashFlowRegister.Id);
+                
+                var parametersRegisterSuccess = ConstructorParameters.Init(ParametersName.Success, isDeleted).GenerateParameters();
+
+                await NavigatorService.NavigateToAsync("AlertPopup", parametersRegisterSuccess);
+
+                await NavigatorService.BackToAsync(parametersRegisterSuccess);
+            }
         }
         private async Task OpenImage()
         {

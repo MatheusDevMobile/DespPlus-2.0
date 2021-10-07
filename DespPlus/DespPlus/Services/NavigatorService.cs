@@ -85,6 +85,9 @@ namespace DespPlus.Services
                     case nameof(OnboardingPage):
                         page = new OnboardingPage();
                         break;
+                    case nameof(AlertPopup):
+                        page = new AlertPopup();
+                        break;
 
 
                 }

@@ -11,7 +11,7 @@ namespace DespPlus.Data
         {
             get
             {
-                var basePath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+                var basePath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
                 return Path.Combine(basePath, DatabaseFilename);
             }
         }

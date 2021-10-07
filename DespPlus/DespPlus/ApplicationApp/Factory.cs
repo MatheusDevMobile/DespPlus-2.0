@@ -46,6 +46,7 @@ namespace DespPlus.ApplicationApp
             Container.Register<PaymentMethodPopupVM>();
             Container.Register<CategoryPopupVM>();
             Container.Register<OnboardingViewModel>();
+            Container.Register<AlertPopupVM>();
         }
 
         private void ConfigureServices()

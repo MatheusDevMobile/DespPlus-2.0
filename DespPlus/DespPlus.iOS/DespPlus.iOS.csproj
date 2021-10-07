@@ -78,6 +78,7 @@
     <BundleResource Include="Resources\onb1.json" />
     <BundleResource Include="Resources\hello.json" />
     <BundleResource Include="Resources\veryHappy.json" />
+    <BundleResource Include="Resources\error.json" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />

@@ -242,20 +242,24 @@ namespace DespPlus.ViewModels
 
             if (IsEdit)
             {
-                await CashFlowService.UpdateRegister(idRegister, cashFlowRegister);
+                var isEditsuccess = await CashFlowService.UpdateRegister(idRegister, cashFlowRegister);
 
-                await Application.Current.MainPage.DisplayAlert("Sucesso", "Registro atualizado", "ok");
+                var parametersEditSuccess = ConstructorParameters.Init(ParametersName.Success, isEditsuccess).GenerateParameters();
+
+                await NavigatorService.NavigateToAsync("AlertPopup", parametersEditSuccess);
 
                 await NavigatorService.BackToAsync();
                 return;
             }
 
-            if (await CashFlowService.CreateRegister(cashFlowRegister))
-            {
-                await Application.Current.MainPage.DisplayAlert("Ok", "Salvo", "ok");
+            var isRegisterSuccess = await CashFlowService.CreateRegister(cashFlowRegister);
 
-                await NavigatorService.BackToAsync();
-            }
+            var parametersRegisterSuccess = ConstructorParameters.Init(ParametersName.Success, isRegisterSuccess).GenerateParameters();
+
+            await NavigatorService.NavigateToAsync("AlertPopup", parametersRegisterSuccess);
+
+            await NavigatorService.BackToAsync();
+            
         }
     }
 }
