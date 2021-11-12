@@ -56,7 +56,6 @@ namespace DespPlus.ViewModels
             {
                 StateView = LayoutState.Loading;
 
-
                 if (parameters != null && parameters.TryGetValue(ParametersName.CashFlowDetail, out var cashFlow))
                 {
                     CashFlowRegister = (CashFlow)cashFlow;

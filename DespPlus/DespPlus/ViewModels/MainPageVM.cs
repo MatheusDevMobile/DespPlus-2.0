@@ -64,52 +64,57 @@ namespace DespPlus.ViewModels
                 }
             }
         }
-        private void GetTotalPercentage()
+        private async Task GetTotalPercentage()
         {
-            var percentage = 0d;
-            TotalIncomesValue = CashFlows.Where(x => x.IsIncome).Sum(l => l.Value);
-            TotalExpensesValue = CashFlows.Where(x => x.IsIncome == false).Sum(l => l.Value);
-
-            if (TotalIncomesValue > 0 && TotalExpensesValue < 1)
+            await Task.Run(() =>
             {
-                percentage = 100d;
-            }
-            if (TotalIncomesValue > 0 && TotalExpensesValue > 0)
-            {
-                TotalPercentage = 100 - ((TotalExpensesValue * 100) / TotalIncomesValue);
-                AnimationProgressPercentage = TotalPercentage / 100;
-                return;
-            }
+                var percentage = 0d;
+                TotalIncomesValue = CashFlows.Where(x => x.IsIncome).Sum(l => l.Value);
+                TotalExpensesValue = CashFlows.Where(x => x.IsIncome == false).Sum(l => l.Value);
 
-            TotalPercentage = percentage;
-            AnimationProgressPercentage = TotalPercentage / 100;
-        }
-
-        private void ShowPercentageValuesAnimation()
-        {
-            var startValue = 0;
-
-            var progressBar = new ProgressRing();
-
-            if (Animation != null)
-            {
-                progressBar.AbortAnimation("Percentage");
-            }
-
-            Animation = new Animation(v =>
-            {
-                if (v == 0)
+                if (TotalIncomesValue > 0 && TotalExpensesValue < 1)
                 {
-                    AnimationProgressPercentage = 0;
+                    percentage = 100d;
+                }
+                if (TotalIncomesValue > 0 && TotalExpensesValue > 0)
+                {
+                    TotalPercentage = 100 - ((TotalExpensesValue * 100) / TotalIncomesValue);
+                    AnimationProgressPercentage = TotalPercentage / 100;
                     return;
                 }
-                AnimationProgressPercentage = v / 100;
-                TotalPercentage = v;
-            }, startValue, TotalPercentage, Easing.SinInOut);
 
-            Animation.Commit(new ProgressRing(), "TotalPercentage", length: 1500,
-                finished: (l, c) => { Animation = null; });
+                TotalPercentage = percentage;
+                AnimationProgressPercentage = TotalPercentage / 100;
 
+            });
+        }
+
+        private async Task ShowPercentageValuesAnimation()
+        {
+            await Task.Run(() => { 
+                var startValue = 0;
+
+                var progressBar = new ProgressRing();
+
+                if (Animation != null)
+                {
+                    progressBar.AbortAnimation("Percentage");
+                }
+
+                Animation = new Animation(v =>
+                {
+                    if (v == 0)
+                    {
+                        AnimationProgressPercentage = 0;
+                        return;
+                    }
+                    AnimationProgressPercentage = v / 100;
+                    TotalPercentage = v;
+                }, startValue, TotalPercentage, Easing.SinInOut);
+
+                Animation.Commit(new ProgressRing(), "TotalPercentage", length: 1500,
+                    finished: (l, c) => { Animation = null; });
+            });
         }
 
         public async Task ExecuteRefreshCommand()
@@ -118,8 +123,8 @@ namespace DespPlus.ViewModels
             var cashFlowList = await CashFlowService.GetAllCashFlow();
             CashFlows = new ObservableCollection<CashFlow>(cashFlowList.OrderByDescending(c => c.Date).OrderByDescending(c => c.Time));
 
-            GetTotalPercentage();
-            ShowPercentageValuesAnimation();
+            await GetTotalPercentage();
+            await ShowPercentageValuesAnimation();
 
             IsRefreshing = false;
         }

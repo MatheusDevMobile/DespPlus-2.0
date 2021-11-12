@@ -136,7 +136,7 @@ namespace DespPlus.ViewModels
             var parameters = ConstructorParameters.Init(ParametersName.FilePopup, ReceipPhotoSource).GenerateParameters();
             await NavigatorService.NavigateToAsync("FilePopupPage", parameters);
         }
-        private async void OpenPhotoLibrary()
+        private async Task OpenPhotoLibrary()
         {
             var imageReceip = await PickPhotoService.PickPhotoFromLibrary();
             if (imageReceip != null)
@@ -149,7 +149,7 @@ namespace DespPlus.ViewModels
             }
         }
 
-        private async void OpenCamera()
+        private async Task OpenCamera()
         {
             var imageReceip = await PickPhotoService.TakePhoto();
             if (imageReceip != null)
@@ -162,7 +162,7 @@ namespace DespPlus.ViewModels
             }
         }
 
-        private async void DeleteImage()
+        private async Task DeleteImage()
         {
             var removeAlert = await Application.Current.MainPage.DisplayAlert("Atenção", "Deseja remover esse comprovante?", "sim", "não");
             if (removeAlert)
@@ -173,7 +173,7 @@ namespace DespPlus.ViewModels
             }
         }
 
-        private async void SaveRegister()
+        private async Task SaveRegister()
         {
             HasErrorField = false;
             ErrorMessage = "";
