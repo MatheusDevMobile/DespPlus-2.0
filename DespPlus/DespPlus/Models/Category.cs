@@ -1,11 +1,12 @@
-﻿using Newtonsoft.Json;
+﻿using DespPlus.Data.Repository.Interface;
+using Newtonsoft.Json;
 using Xamarin.Forms;
 
 namespace DespPlus.Models
 {
-    public class Category
+    public class Category : IEntity
     {
-        public string CategoryId { get; set; }
+        public string Id { get; set; }
         public string Name { get; set; }
         public bool IsIncome { get; set; }
         public bool IsExpense { get; set; }

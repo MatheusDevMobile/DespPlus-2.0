@@ -9,10 +9,10 @@ namespace DespPlus.Services
 {
     public class CashFlowService : ICashFlowService
     {
-        protected IRegisterRepository<CashFlow> CashFlowRepository { get; }
-        protected IRegisterRepository<Category> CategoryRepository { get; }
-        protected IRegisterRepository<PaymentMethod> PaymentMethodRepository { get; }
-        public CashFlowService(IRegisterRepository<CashFlow> repository, IRegisterRepository<Category> categoryRepository, IRegisterRepository<PaymentMethod> paymentMethodRepository)
+        protected IRepository<CashFlow> CashFlowRepository { get; }
+        protected IRepository<Category> CategoryRepository { get; }
+        protected IRepository<PaymentMethod> PaymentMethodRepository { get; }
+        public CashFlowService(IRepository<CashFlow> repository, IRepository<Category> categoryRepository, IRepository<PaymentMethod> paymentMethodRepository)
         {
             CashFlowRepository = repository;
             CategoryRepository = categoryRepository;
@@ -20,17 +20,23 @@ namespace DespPlus.Services
         }
         public async Task<bool> CreateRegister(CashFlow cashFlow)
         {
-            return await CashFlowRepository.Save(cashFlow);
+            await CashFlowRepository.Create(cashFlow);
+            return true;
         }
 
         public async Task<bool> UpdateRegister(string id, CashFlow cashFlow)
         {
-            return await CashFlowRepository.Update(id, cashFlow);
+            if (id != cashFlow.Id)
+                return false;
+
+            await CashFlowRepository.Update(cashFlow);
+            return true;
         }
 
         public async Task<bool> DeleteRegister(string id)
         {
-            return await CashFlowRepository.Delete(id);
+            await CashFlowRepository.Delete(id);
+            return true;
         }
 
         public async Task<List<CashFlow>> GetAllCashFlow()
@@ -43,13 +49,13 @@ namespace DespPlus.Services
             {
                 foreach (var category in categories)
                 {
-                    if (category.CategoryId == cashFlow.CategoryId)
+                    if (category.Id == cashFlow.CategoryId)
                         cashFlow.Category = category;
                 }
 
                 foreach (var paymentMethod in paymentMethods)
                 {
-                    if (paymentMethod.PaymentMethodId == cashFlow.PaymentMethodId)
+                    if (paymentMethod.Id == cashFlow.PaymentMethodId)
                         cashFlow.PaymentMethod = paymentMethod;
                 }
             }

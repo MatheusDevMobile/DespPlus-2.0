@@ -8,8 +8,8 @@ namespace DespPlus.Services
 {
     public class PaymentMethodService : IPaymentMethodService
     {
-        protected IRegisterRepository<PaymentMethod> Repository { get; }
-        public PaymentMethodService(IRegisterRepository<PaymentMethod> repository)
+        protected IRepository<PaymentMethod> Repository { get; }
+        public PaymentMethodService(IRepository<PaymentMethod> repository)
         {
             Repository = repository;
         }
@@ -21,17 +21,23 @@ namespace DespPlus.Services
 
         public async Task<bool> CreatePaymentMethod(PaymentMethod paymentMethod)
         {
-            return await Repository.Save(paymentMethod);
+            await Repository.Create(paymentMethod);
+            return true;
         }
 
         public async Task<bool> UpdatePaymentMethod(string id, PaymentMethod paymentMethod)
         {
-            return await Repository.Update(id, paymentMethod);
+            if (id != paymentMethod.Id)
+                return false;
+
+            await Repository.Update(paymentMethod);
+            return true;
         }
 
         public async Task<bool> DeletePaymentMethod(string id)
         {
-            return await Repository.Delete(id);
+            await Repository.Delete(id);
+            return true;
         }
     }
 }

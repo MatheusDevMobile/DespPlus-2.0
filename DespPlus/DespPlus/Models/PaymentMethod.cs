@@ -1,8 +1,10 @@
-﻿namespace DespPlus.Models
+﻿using DespPlus.Data.Repository.Interface;
+
+namespace DespPlus.Models
 {
-    public class PaymentMethod
+    public class PaymentMethod : IEntity
     {
-        public string PaymentMethodId { get; set; }
+        public string Id { get; set; }
         public string Name { get; set; }
     }
 }

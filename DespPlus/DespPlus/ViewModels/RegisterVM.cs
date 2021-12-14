@@ -117,8 +117,8 @@ namespace DespPlus.ViewModels
                 DateLabel = CashFlowRegister.Date;
                 TimeLabel = CashFlowRegister.Time;
                 CommentDescription = CashFlowRegister.Comment;
-                CategoryItem = CategoryList.Where(c => c.CategoryId == CashFlowRegister.CategoryId).FirstOrDefault();
-                PaymentMethodItem = PaymentMethodList.Where(c => c.PaymentMethodId == CashFlowRegister.PaymentMethodId).FirstOrDefault();
+                CategoryItem = CategoryList.Where(c => c.Id == CashFlowRegister.CategoryId).FirstOrDefault();
+                PaymentMethodItem = PaymentMethodList.Where(c => c.Id == CashFlowRegister.PaymentMethodId).FirstOrDefault();
                 Base64 = CashFlowRegister.ImageString64;
                 HasImage = CashFlowRegister.ImageString64 != null;
                 ImageName = CashFlowRegister.ImageName;
@@ -181,9 +181,9 @@ namespace DespPlus.ViewModels
             if (ValueLabel == null)
                 ValueLabel = "0";
             if (CategoryItem == null)
-                CategoryItem = new Category { CategoryId = "", Name = "", IsExpense = false, IsIncome = false };
+                CategoryItem = new Category { Id = "", Name = "", IsExpense = false, IsIncome = false };
             if (PaymentMethodItem == null)
-                PaymentMethodItem = new PaymentMethod { PaymentMethodId = "", Name = "" };
+                PaymentMethodItem = new PaymentMethod { Id = "", Name = "" };
 
             var toStringValue = ValueLabel.Replace("R$ ", "").Replace(",", "").Replace(".", "");
             var prepareToStringValue = toStringValue.Insert(toStringValue.Length - 2, ",");
@@ -203,8 +203,8 @@ namespace DespPlus.ViewModels
                 IsIncome = this.IsIncome,
                 Value = double.Parse(prepareToStringValue, CultureInfo.GetCultureInfo("pt-br")),
                 ValueLabel = this.ValueLabel,
-                PaymentMethodId = PaymentMethodItem.PaymentMethodId,
-                CategoryId = CategoryItem.CategoryId,
+                PaymentMethodId = PaymentMethodItem.Id,
+                CategoryId = CategoryItem.Id,
                 ImageName = this.ImageName,
                 ImageString64 = Base64,
 
@@ -232,8 +232,8 @@ namespace DespPlus.ViewModels
                 IsIncome = this.IsIncome,
                 Value = double.Parse(prepareToStringValue, CultureInfo.GetCultureInfo("pt-br")),
                 ValueLabel = this.ValueLabel,
-                PaymentMethodId = PaymentMethodItem.PaymentMethodId,
-                CategoryId = CategoryItem.CategoryId,
+                PaymentMethodId = PaymentMethodItem.Id,
+                CategoryId = CategoryItem.Id,
                 ImageName = this.ImageName,
                 ImageString64 = Base64,
 

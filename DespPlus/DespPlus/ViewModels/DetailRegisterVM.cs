@@ -64,8 +64,8 @@ namespace DespPlus.ViewModels
                     HasComment = CashFlowRegister.Comment != null;
                     HasImage = CashFlowRegister.ImageString64 != null;
                     ImageLabel = CashFlowRegister.ImageName;
-                    CategoryDescription = categories.Where(r => r.CategoryId == CashFlowRegister.CategoryId).FirstOrDefault().Name;
-                    PaymentMethodDescription = paymentMethods.Where(r => r.PaymentMethodId == CashFlowRegister.PaymentMethodId).FirstOrDefault().Name; ;
+                    CategoryDescription = categories.Where(r => r.Id == CashFlowRegister.CategoryId).FirstOrDefault().Name;
+                    PaymentMethodDescription = paymentMethods.Where(r => r.Id == CashFlowRegister.PaymentMethodId).FirstOrDefault().Name; ;
                 }
 
                 StateView = LayoutState.Success;

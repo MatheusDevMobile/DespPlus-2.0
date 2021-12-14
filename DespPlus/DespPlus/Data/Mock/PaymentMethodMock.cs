@@ -15,57 +15,57 @@ namespace DespPlus.Data.Mock
             {
                  new PaymentMethod
                  {
-                    PaymentMethodId = "1",
+                    Id = "1",
                     Name = "Dinheiro",
                  },
                  new PaymentMethod
                  {
-                    PaymentMethodId = "2",
+                    Id = "2",
                     Name = "Cartão de Crédito",
                  },
                  new PaymentMethod
                  {
-                    PaymentMethodId = "3",
+                    Id = "3",
                     Name = "Cartão de Débito",
                  },
                  new PaymentMethod
                  {
-                    PaymentMethodId = "4",
+                    Id = "4",
                     Name = "Pix",
                  },
                  new PaymentMethod
                  {
-                    PaymentMethodId = "5",
+                    Id = "5",
                     Name = "Transferência Bancária Padrão",
                  },
                  new PaymentMethod
                  {
-                    PaymentMethodId = "6",
+                    Id = "6",
                     Name = "Depósito",
                  },
                  new PaymentMethod
                  {
-                    PaymentMethodId = "7",
+                    Id = "7",
                     Name = "Boleto",
                  },
                  new PaymentMethod
                  {
-                    PaymentMethodId = "8",
+                    Id = "8",
                     Name = "Mercado Pago",
                  },
                  new PaymentMethod
                  {
-                    PaymentMethodId = "9",
+                    Id = "9",
                     Name = "PayPal",
                  },
                  new PaymentMethod
                  {
-                    PaymentMethodId = "10",
+                    Id = "10",
                     Name = "Criptomoeda",
                  },
                  new PaymentMethod
                  {
-                    PaymentMethodId = "11",
+                    Id = "11",
                     Name = "Outros"
                  }
             };

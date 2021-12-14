@@ -1,12 +1,11 @@
-﻿using System;
-using System.ComponentModel;
+﻿using DespPlus.Data.Repository.Interface;
+using System;
 using Xamarin.Forms;
 
 namespace DespPlus.Models
 {
-    public class CashFlow : INotifyPropertyChanged
+    public class CashFlow : IEntity
     {
-        public event PropertyChangedEventHandler PropertyChanged;
         public string Id { get; set; }
         public DateTime Date { get; set; }
         public TimeSpan Time { get; set; }

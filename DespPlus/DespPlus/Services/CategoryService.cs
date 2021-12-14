@@ -8,20 +8,22 @@ namespace DespPlus.Services
 {
     public class CategoryService : ICategoryService
     {
-        protected IRegisterRepository<Category> Repository { get; }
-        public CategoryService(IRegisterRepository<Category> repository)
+        protected IRepository<Category> Repository { get; }
+        public CategoryService(IRepository<Category> repository)
         {
             Repository = repository;
         }
 
         public async Task<bool> CreateCategory(Category category)
         {
-            return await Repository.Save(category);
+            await Repository.Create(category);
+            return true;
         }
 
         public async Task<bool> DeleteCategory(string id)
         {
-            return await Repository.Delete(id);
+            await Repository.Delete(id);
+            return true;
         }
 
         public async Task<List<Category>> GetCategories()
@@ -31,7 +33,8 @@ namespace DespPlus.Services
 
         public async Task<bool> UpdateCategory(string id, Category category)
         {
-            return await Repository.Update(id, category);
+            await Repository.Update(category);
+            return true;
         }
     }
 }
