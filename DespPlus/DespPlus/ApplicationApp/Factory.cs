@@ -30,9 +30,9 @@ namespace DespPlus.ApplicationApp
 
         private void ConfigureValidators()
         {
-            Container.Register<RegisterValidator>();
-            Container.Register<CategoryPopupValidator>();
-            Container.Register<PaymentMethodPopupValidator>();
+            Container.Register<RegisterValidator>(Lifestyle.Singleton);
+            Container.Register<CategoryPopupValidator>(Lifestyle.Singleton);
+            Container.Register<PaymentMethodPopupValidator>(Lifestyle.Singleton);
         }
 
         private void ConfigureViewModels()
@@ -52,22 +52,22 @@ namespace DespPlus.ApplicationApp
 
         private void ConfigureServices()
         {
-            Container.Register<ICashFlowService, CashFlowService>();
+            Container.Register<ICashFlowService, CashFlowService>(Lifestyle.Scoped);
             Container.Register<INavigatorService, NavigatorService>(Lifestyle.Singleton);
             Container.Register<IHandleExeptionService, HandleExeptionService>(Lifestyle.Singleton);
-            Container.Register<IPickPhotoService, PickPhotoService>();
-            Container.Register<ICategoryService, CategoryService>();
-            Container.Register<IPaymentMethodService, PaymentMethodService>();
-            Container.Register<ISeedingService, SeedingService>();
+            Container.Register<IPickPhotoService, PickPhotoService>(Lifestyle.Scoped);
+            Container.Register<ICategoryService, CategoryService>(Lifestyle.Scoped);
+            Container.Register<IPaymentMethodService, PaymentMethodService>(Lifestyle.Scoped);
+            Container.Register<ISeedingService, SeedingService>(Lifestyle.Scoped);
 
             Container.RegisterInstance<IShowAlertService>(new ShowAlertService());
         }
 
         private void ConfigureRepositories()
         {
-            Container.Register<IRepository<CashFlow>, EFCoreCashFlowRepository>();
-            Container.Register<IRepository<Category>, EFCoreCategoryRepository>();
-            Container.Register<IRepository<PaymentMethod>, EFCorePaymentMethodRepository>();
+            Container.Register<IRepository<CashFlow>, EFCoreCashFlowRepository>(Lifestyle.Scoped);
+            Container.Register<IRepository<Category>, EFCoreCategoryRepository>(Lifestyle.Scoped);
+            Container.Register<IRepository<PaymentMethod>, EFCorePaymentMethodRepository>(Lifestyle.Scoped);
         }
 
         public override object GetInstance(Type type)
